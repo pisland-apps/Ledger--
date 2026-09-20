@@ -1,0 +1,2901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ledger 记账本 用户手册</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="description" content="Ledger 记账本用户手册电子书，支持离线阅读。">
+<meta name="theme-color" content="#FAFCF9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151F1C" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ledger 手册">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<noscript><style>.chapter[hidden]{display:block!important}</style></noscript>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --fs:17px;
+  --topbar-h:56px;
+  --paper:#F2F6F1; --page:#FAFCF9; --ink:#1D2A26; --ink2:#51625B; --ink3:#7A8A83;
+  --rule:#D5DFD8; --rule2:#E4ECE6;
+  --green:#2B6A58; --green-d:#1F5040; --green-soft:#E2EFE8;
+  --seal:#B5322A; --seal-soft:#F8E6E3; --on-seal:#FFFFFF;
+  --info:#2C5F8D; --info-bg:#E5EFF7;
+  --warn:#93540F; --warn-bg:#FBF0DC;
+  --code-bg:#E7EEEA;
+  --shadow:0 1px 0 rgba(20,40,30,.04),0 10px 28px -14px rgba(20,40,30,.28);
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"Noto Sans SC","Source Han Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]):not([data-theme="green"]){
+    --paper:#0F1715; --page:#151F1C; --ink:#DDE7E2; --ink2:#A3B5AD; --ink3:#7D9088;
+    --rule:#2A3A35; --rule2:#212F2A;
+    --green:#6CCBA7; --green-d:#8FDCBF; --green-soft:#1B3A31;
+    --seal:#E4695F; --seal-soft:#3A201E; --on-seal:#2A1210;
+    --info:#7DB4E6; --info-bg:#1A2C3D; --warn:#E6B265; --warn-bg:#3A2D17; --code-bg:#1E2A26;
+    --shadow:0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1715; --page:#151F1C; --ink:#DDE7E2; --ink2:#A3B5AD; --ink3:#7D9088;
+  --rule:#2A3A35; --rule2:#212F2A;
+  --green:#6CCBA7; --green-d:#8FDCBF; --green-soft:#1B3A31;
+  --seal:#E4695F; --seal-soft:#3A201E; --on-seal:#2A1210;
+  --info:#7DB4E6; --info-bg:#1A2C3D; --warn:#E6B265; --warn-bg:#3A2D17; --code-bg:#1E2A26;
+  --shadow:0 10px 28px -14px rgba(0,0,0,.7);
+}
+:root[data-theme="green"]{
+  --paper:#E4EBD3; --page:#EEF3E0; --ink:#26301F; --ink2:#55624A; --ink3:#77846B;
+  --rule:#CBD6B6; --rule2:#D6E0C3;
+  --green:#2E6A3E; --green-d:#1F4E2C; --green-soft:#D9E6C2;
+  --seal:#A93A2C; --seal-soft:#F1DCD2;
+  --info-bg:#DAE8E6; --warn-bg:#F0E6C4; --code-bg:#D9E3C5;
+}
+
+*,*::before,*::after{box-sizing:inherit}
+html{-webkit-text-size-adjust:100%;scroll-behavior:auto}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:var(--fs);line-height:1.85;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+a{color:var(--green);text-underline-offset:.2em}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:8px;top:-60px;z-index:100;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:6px}
+.skip:focus{top:8px}
+
+/* ---------- 顶栏 ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--topbar-h);display:flex;align-items:center;gap:4px;padding:0 10px;background:var(--page);border-bottom:1px solid var(--rule);font-size:15px;line-height:1.3}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:40px;height:40px;padding:0 10px;border:0;border-radius:10px;background:transparent}
+.icon-btn:hover{background:var(--green-soft)}
+.icon-btn svg{flex:none}
+.brand{display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 10px;border:0;background:transparent;border-radius:10px;font-family:var(--serif);font-weight:700;font-size:16px;white-space:nowrap}
+.brand:hover{background:var(--green-soft)}
+.brand .seal{font-size:13px}
+.crumb{margin-left:8px;padding-left:14px;border-left:1px solid var(--rule);color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.spacer{flex:1}
+.kbd{display:inline-block;min-width:1.6em;padding:0 .4em;border:1px solid var(--rule);border-radius:5px;font-size:12px;color:var(--ink3);text-align:center;line-height:1.5}
+.progress{position:sticky;top:calc(var(--topbar-h) + env(safe-area-inset-top,0px));z-index:49;height:3px;margin-bottom:-3px}
+.progress i{display:block;height:100%;width:0;background:var(--seal)}
+
+/* ---------- 版式 ---------- */
+.app{display:flex;align-items:flex-start;max-width:1440px;margin:0 auto}
+main{flex:1;min-width:0;outline:none}
+.sidebar{position:sticky;top:calc(var(--topbar-h) + env(safe-area-inset-top,0px));flex:none;width:304px;height:calc(100dvh - var(--topbar-h) - env(safe-area-inset-top,0px));overflow-y:auto;overscroll-behavior:contain;padding:14px 12px 48px 14px;background:var(--page);border-right:1px solid var(--rule);font-size:15px;line-height:1.5}
+.scrim{display:none}
+.sb-home{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;color:var(--ink);text-decoration:none;font-weight:700;font-family:var(--serif)}
+.sb-home:hover,.sb-home.active{background:var(--green-soft)}
+.sb-gname{padding:16px 12px 5px;font-family:var(--serif);font-size:13px;letter-spacing:.12em;color:var(--ink3)}
+.sb-link{display:flex;align-items:flex-start;gap:10px;padding:7px 12px;border-radius:9px;color:var(--ink);text-decoration:none}
+.sb-link:hover{background:var(--green-soft)}
+.sb-item.active>.sb-link{background:var(--green-soft);font-weight:700}
+.sb-t{padding-top:.1em}
+.sb-subs{list-style:none;margin:2px 0 8px 27px;padding:0 0 0 12px;border-left:2px solid var(--rule)}
+.sb-item:not(.active) .sb-subs{display:none}
+.sb-subs a{display:block;padding:4px 8px;border-radius:6px;font-size:14px;line-height:1.45;color:var(--ink2);text-decoration:none}
+.sb-subs a:hover{background:var(--green-soft)}
+.sb-subs .lv4 a{padding-left:20px;font-size:13.5px}
+.sb-subs a.on{color:var(--green-d);font-weight:700;background:var(--green-soft)}
+
+/* ---------- 印章（章节序号） ---------- */
+.seal{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:2.3em;height:2.3em;padding:0 .3em;border:1.5px solid var(--seal);border-radius:4px;background:var(--seal-soft);color:var(--seal);font-family:var(--serif);font-weight:700;font-size:15px;line-height:1}
+.seal-sm{font-size:12.5px;margin-top:1px}
+.seal-lg{min-width:68px;height:68px;font-size:28px;border-radius:6px;background:var(--seal);color:var(--on-seal);box-shadow:inset 0 0 0 3px var(--seal),inset 0 0 0 4px var(--on-seal)}
+
+/* ---------- 封面 ---------- */
+.cover{position:relative;padding:48px 24px 44px calc(clamp(14px,5vw,64px) + 30px);border-bottom:1px solid var(--rule);background:repeating-linear-gradient(to bottom,transparent 0,transparent 35px,var(--rule2) 35px,var(--rule2) 36px)}
+.cover::before{content:"";position:absolute;top:0;bottom:0;left:clamp(14px,5vw,64px);width:5px;border-left:1px solid var(--seal);border-right:1px solid var(--seal);opacity:.5}
+.cover-inner{max-width:44rem}
+.cover-top{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.chop{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;width:76px;height:76px;padding:6px;background:var(--seal);color:var(--on-seal);border-radius:6px;font-family:var(--serif);font-weight:700;font-size:26px;line-height:1;box-shadow:inset 0 0 0 3px var(--seal),inset 0 0 0 4px var(--on-seal)}
+.chop span{display:contents}
+.chop{letter-spacing:0}
+.chop span:first-child{grid-row:1;grid-column:1/3;display:flex;justify-content:space-around;align-items:center}
+.chop span:last-child{grid-row:2;grid-column:1/3;display:flex;justify-content:space-around;align-items:center}
+.cover-ver{margin:0;font-family:var(--serif);font-weight:600;color:var(--seal);font-size:17px}
+.cover-title{margin:0 0 22px;font-family:var(--serif);font-weight:700;font-size:clamp(38px,7vw,60px);line-height:1.22;letter-spacing:.02em}
+.epigraph{margin:0 0 30px;max-width:36em;font-family:var(--serif);font-size:1.06em;line-height:2;color:var(--ink2)}
+.cover-search{display:flex;align-items:center;gap:10px;width:100%;max-width:32rem;padding:.75em 1em;border:1.5px solid var(--ink2);border-radius:10px;background:var(--page);color:var(--ink2);text-align:left;font-size:16px;line-height:1.4}
+.cover-search:hover{border-color:var(--green);color:var(--ink)}
+.home-body{max-width:56rem;margin:0 auto;padding:36px 24px 96px}
+.home-h{margin:0 0 14px;font-family:var(--serif);font-size:1.3em;line-height:1.3}
+.resume{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 30px;padding:14px 18px;border:1.5px solid var(--green);border-radius:10px;background:var(--green-soft)}
+.resume-l{font-weight:700;color:var(--green-d)}
+.resume a{color:var(--ink);text-decoration:none}
+.resume a:hover b{text-decoration:underline}
+.quick{margin-bottom:40px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;padding:.35em 1em;border:1px solid var(--rule);border-radius:999px;background:var(--page);color:var(--ink);text-decoration:none;font-size:15px;line-height:1.6}
+.chip:hover{border-color:var(--green);background:var(--green-soft)}
+.chip-main{background:var(--green);border-color:var(--green);color:var(--page);font-weight:700}
+.chip-main:hover{background:var(--green-d);border-color:var(--green-d)}
+.menu{margin-bottom:44px}
+.group{display:grid;grid-template-columns:9.5rem 1fr;gap:0 24px;padding-top:6px;border-top:3px double var(--ink3)}
+.group+.group{margin-top:18px}
+.group-name{margin:0;padding-top:14px;font-family:var(--serif);font-size:1.1em;line-height:1.4}
+.rows{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:14px;padding:14px 10px;border-top:1px solid var(--rule);color:inherit;text-decoration:none;border-radius:2px}
+.row:first-child{border-top:0}
+.row:hover{background:var(--green-soft)}
+.row-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.row-t{font-weight:700;line-height:1.5}
+.row-s{font-size:14.5px;line-height:1.6;color:var(--ink2)}
+.chev{flex:none;width:9px;height:9px;border-top:2px solid var(--ink3);border-right:2px solid var(--ink3);transform:rotate(45deg);margin-right:4px}
+.row:hover .chev{border-color:var(--green)}
+.about{margin-top:8px}
+
+/* ---------- 章节 ---------- */
+.reader{max-width:44em;margin:0 auto;padding:40px 28px 96px}
+.ch-head{display:flex;gap:20px;align-items:flex-start;margin-bottom:34px;padding-bottom:26px;border-bottom:3px double var(--ink3)}
+.ch-head-t{min-width:0}
+.ch-title{margin:0;font-family:var(--serif);font-weight:700;font-size:2em;line-height:1.3}
+.ch-sum{margin:10px 0 0;color:var(--ink2);font-size:.98em;line-height:1.75}
+.ch-meta{display:flex;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--ink3);line-height:1.4}
+.ch-meta span+span{margin-left:12px;padding-left:12px;border-left:1px solid var(--rule)}
+.prose>*:first-child{margin-top:0}
+.prose p{margin:0 0 1.05em}
+.prose h3{margin:2.5em 0 .8em;padding-top:.9em;border-top:1px solid var(--rule);font-family:var(--serif);font-weight:700;font-size:1.42em;line-height:1.4;scroll-margin-top:calc(var(--topbar-h) + env(safe-area-inset-top,0px) + 16px)}
+.prose h3:first-child{margin-top:0;border-top:0;padding-top:0}
+.prose h4{margin:2em 0 .6em;font-size:1.12em;line-height:1.5;color:var(--green-d);scroll-margin-top:calc(var(--topbar-h) + env(safe-area-inset-top,0px) + 16px)}
+.prose strong{font-weight:700}
+.prose ul,.prose ol{margin:0 0 1.1em;padding-left:1.5em}
+.prose li{margin:.4em 0}
+.prose li::marker{color:var(--green);font-weight:700}
+.prose li>ul,.prose li>ol{margin:.4em 0 .2em}
+.prose code{padding:.08em .38em;border-radius:5px;background:var(--code-bg);font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:.86em;word-break:break-word}
+.prose a.xref{text-decoration:underline dotted;text-decoration-thickness:2px}
+.prose a.xref:hover{text-decoration-style:solid}
+.prose em{font-style:normal;color:var(--ink2)}
+.prose p>em:only-child{display:block;margin-top:1.6em;padding-top:1.2em;border-top:1px solid var(--rule);font-size:.92em}
+
+/* 提示框 */
+.callout{margin:1.3em 0;padding:.95em 1.15em .9em;border-left:4px solid var(--info);border-radius:0 10px 10px 0;background:var(--info-bg)}
+.callout p{margin:0 0 .6em;font-size:.96em;line-height:1.8}
+.callout ul,.callout ol{font-size:.96em;margin-bottom:.6em}
+.callout>:last-child{margin-bottom:0}
+.callout-title{margin-bottom:.35em;font-weight:700;color:var(--info);line-height:1.6}
+.callout-title::before{content:"ℹ️";margin-right:.5em}
+.callout-tip{border-left-color:var(--green);background:var(--green-soft)}
+.callout-tip .callout-title{color:var(--green-d)}
+.callout-tip .callout-title::before{content:"💡"}
+.callout-warning{border-left-color:var(--warn);background:var(--warn-bg)}
+.callout-warning .callout-title{color:var(--warn)}
+.callout-warning .callout-title::before{content:"⚠️"}
+
+/* 表格 */
+.table-wrap{margin:1.3em 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:.9em;line-height:1.7}
+.table-wrap th{padding:.5em .85em;border-bottom:3px double var(--ink3);text-align:left;font-weight:700;white-space:nowrap}
+.table-wrap td{padding:.6em .85em;border-bottom:1px solid var(--rule);vertical-align:top;min-width:6.5em}
+.table-wrap td:first-child{font-weight:700}
+.table-wrap tbody tr:hover td{background:var(--green-soft)}
+.t2 td:first-child{width:26%}
+.table-wrap[data-filter="changelog"] td:first-child{width:7.5em;min-width:7.5em;white-space:nowrap;color:var(--seal);font-family:var(--serif)}
+.table-wrap[data-filter="changelog"] td:last-child{font-weight:400}
+.tbl-tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:1.3em 0 -.6em;font-size:14px;line-height:1.4}
+.tbl-search{flex:1 1 18em;max-width:28em}
+.tbl-search input{width:100%;padding:.55em .9em;border:1.5px solid var(--rule);border-radius:9px;background:var(--page);color:var(--ink);font:inherit}
+.tbl-search input:focus{border-color:var(--green);outline:none}
+.range{display:flex;flex-wrap:wrap;gap:6px}
+.range button{padding:.3em .8em;border:1px solid var(--rule);border-radius:999px;background:var(--page)}
+.range button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--page);font-weight:700}
+.tbl-count{color:var(--ink3)}
+
+/* 章节导航 */
+.ch-nav{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:56px}
+.nav-card{display:flex;flex-direction:column;gap:2px;padding:14px 18px;border:1px solid var(--rule);border-radius:12px;background:var(--page);color:var(--ink);text-decoration:none;line-height:1.5}
+.nav-card:hover{border-color:var(--green);background:var(--green-soft)}
+.nav-card.next{text-align:right;grid-column:2}
+.nav-l{font-size:13px;color:var(--ink3)}
+.nav-t{font-family:var(--serif);font-weight:700}
+.ch-home{margin:22px 0 0;text-align:center;font-size:15px}
+
+/* ---------- 浮层 ---------- */
+.pill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:60;max-width:calc(100% - 32px);display:inline-flex;align-items:center;gap:8px;padding:.6em 1.2em;border:0;border-radius:999px;background:var(--ink);color:var(--paper);box-shadow:var(--shadow);font-size:15px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fab{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:55;width:44px;height:44px;border:1px solid var(--rule);border-radius:50%;background:var(--page);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center}
+.fab:hover{border-color:var(--green)}
+.dialog{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-start;justify-content:center;padding:calc(56px + env(safe-area-inset-top,0px)) 12px 12px;background:rgba(10,20,16,.5)}
+.dlg-box{display:flex;flex-direction:column;width:min(42rem,100%);max-height:calc(100dvh - 90px);border-radius:14px;background:var(--page);box-shadow:var(--shadow);overflow:hidden;font-size:16px;line-height:1.6}
+.dlg-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--rule)}
+.dlg-head input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:17px;outline:none}
+.dlg-close{border:1px solid var(--rule);border-radius:8px;background:transparent;padding:.15em .6em;font-size:13px;color:var(--ink2)}
+.dlg-body{overflow-y:auto;padding:6px 0 10px}
+.dlg-note{padding:14px 18px;color:var(--ink3);font-size:14.5px}
+.res{padding:10px 18px;cursor:pointer;border-left:3px solid transparent}
+.res:hover,.res.active{background:var(--green-soft);border-left-color:var(--green)}
+.res-h{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;line-height:1.5}
+.res-sec{font-weight:400;color:var(--ink2)}
+.res-s{margin-top:3px;color:var(--ink2);font-size:14.5px;line-height:1.65}
+mark,mark.hit{background:#FFD95A;color:#241A00;border-radius:3px;padding:0 .08em}
+.popover{position:fixed;top:calc(var(--topbar-h) + env(safe-area-inset-top,0px) + 6px);right:10px;z-index:70;width:min(20rem,calc(100% - 20px));padding:14px 16px;border:1px solid var(--rule);border-radius:14px;background:var(--page);box-shadow:var(--shadow);font-size:15px;line-height:1.5}
+.pop-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+.pop-row+.pop-row{border-top:1px solid var(--rule)}
+.stepper{display:flex;align-items:center;gap:6px}
+.stepper button,.seg button{padding:.3em .75em;border:1px solid var(--rule);border-radius:8px;background:var(--paper)}
+.stepper output{min-width:2.4em;text-align:center;font-weight:700}
+.seg{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.seg button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--page);font-weight:700}
+.install-btn{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:.5em 1em;border:1.5px solid var(--seal);border-radius:10px;background:var(--seal-soft);color:var(--seal);font-weight:700;font-size:15px;line-height:1.4}
+.install-btn:hover{background:var(--seal);color:var(--on-seal)}
+.install-btn img{width:22px;height:22px;border-radius:5px}
+.steps{margin:0;padding:0 0 0 1.3em}
+.steps li{margin:.25em 0}
+.inst-sec{padding:12px 20px;border-top:1px solid var(--rule)}
+.inst-sec:first-of-type{border-top:0}
+.inst-sec h3{margin:0 0 4px;font-family:var(--serif);font-size:16px}
+.inst-sec p{margin:.3em 0;font-size:14.5px;color:var(--ink2)}
+.inst-sec.here{background:var(--green-soft)}
+@keyframes flash{0%{background:var(--seal-soft)}100%{background:transparent}}
+.flash{animation:flash 2.4s ease-out}
+
+/* ---------- 窄屏 ---------- */
+@media (min-width:961px){#btnMenu{display:none}}
+@media (max-width:960px){
+  .sidebar{position:fixed;top:env(safe-area-inset-top,0px);bottom:0;left:0;z-index:90;width:min(86vw,340px);height:auto;padding-bottom:calc(48px + env(safe-area-inset-bottom,0px));transform:translateX(-102%);transition:transform .22s ease;box-shadow:var(--shadow)}
+  .sidebar.open{transform:none}
+  .scrim.show{display:block;position:fixed;inset:0;z-index:85;background:rgba(10,20,16,.5)}
+  .crumb{display:none}
+}
+@media (max-width:720px){
+  .group{grid-template-columns:1fr}
+  .group-name{padding:12px 10px 4px}
+  .cover{padding:32px 16px 32px calc(clamp(14px,5vw,64px) + 16px)}
+  .home-body{padding:28px 16px 88px}
+  .reader{padding:28px 18px 88px}
+  .ch-head{gap:14px}
+  .seal-lg{min-width:54px;height:54px;font-size:22px}
+  .ch-title{font-size:1.65em}
+  .ch-nav{grid-template-columns:1fr}
+  .nav-card.next{grid-column:auto}
+  #btnSearch .lbl,#btnSearch .kbd{display:none}
+}
+@media (max-width:640px){
+  .t2 thead{display:none}
+  .t2 table,.t2 tbody,.t2 tr,.t2 td{display:block;width:100%}
+  .t2 tr{padding:.65em 0;border-bottom:1px solid var(--rule)}
+  .t2 td{border:0;padding:.08em .1em;width:100%!important;min-width:0!important}
+  .t2 td:first-child{white-space:normal!important}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  .topbar,.progress,.sidebar,.scrim,.pill,.fab,.ch-nav,.ch-home,.tbl-tools{display:none!important}
+  body{background:#fff;color:#000}
+  .reader{max-width:none;padding:0}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="topbar">
+  <button class="icon-btn" id="btnMenu" type="button" aria-label="打开目录" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <button class="icon-btn" id="btnBack" type="button" aria-label="返回上一页" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="brand" id="btnHome" type="button" aria-label="回到主菜单"><span class="seal" aria-hidden="true">账</span><span>Ledger 用户手册</span></button>
+  <div class="crumb" id="crumb"></div>
+  <div class="spacer"></div>
+  <button class="icon-btn" id="btnSearch" type="button" aria-label="搜索" data-open-search>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="lbl">搜索</span><span class="kbd">/</span>
+  </button>
+  <button class="icon-btn" id="btnAa" type="button" aria-label="阅读设置" aria-expanded="false" style="font-family:var(--serif);font-weight:700;font-size:17px">Aa</button>
+</header>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<div class="app">
+  <nav class="sidebar" id="sidebar" aria-label="手册目录"></nav>
+  <div class="scrim" id="scrim"></div>
+  <main id="main" tabindex="-1">
+<section id="view-home">
+<div class="cover">
+<div class="cover-inner">
+<div class="cover-top">
+<div class="chop" aria-hidden="true"><span>记账</span><span>手册</span></div>
+<p class="cover-ver">适用版本 v423</p>
+</div>
+<h1 class="cover-title">Ledger 记账本<br>用户手册</h1>
+<p class="epigraph">记账是极简生活的起点。不是为了抠门，而是为了看清钱到底流向了哪里。当你把每一笔支出都记录下来，就会发现那些&quot;没感觉就花掉&quot;的小钱，其实在悄悄消耗你的生活主动权。记账不是限制，是清醒。是让你在买与不买之间，拥有真正的选择权。极简不是什么都不买，而是只买值得的。而记账，就是帮你辨别&quot;值得&quot;的那面镜子。</p>
+<button type="button" class="cover-search" data-open-search>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+<span>搜索手册，例如“预算”“备份”“黄金”</span>
+</button>
+<button type="button" class="install-btn" data-open-install><img alt="" src="icons/icon-192.png"><span>安装到手机主屏幕</span></button>
+</div>
+</div>
+<div class="home-body">
+<section id="resume" class="resume" hidden>
+<span class="resume-l">上次读到</span>
+<a id="resumeLink" href="#/">继续阅读：<b id="resumeText"></b></a>
+</section>
+<section class="quick" aria-labelledby="quick-h">
+<h2 id="quick-h" class="home-h">我想…</h2>
+<div class="chips"><a class="chip chip-main" href="#/c4">记一笔账</a><a class="chip" href="#/c2">忘记密码怎么办</a><a class="chip" href="#/c4/c4-s1">退款与报销</a><a class="chip" href="#/c4/c4-s2">记录待报销支出</a><a class="chip" href="#/c8/c8-s1">基金买入、卖出与清仓</a><a class="chip" href="#/c8/c8-s2">记录实物黄金</a><a class="chip" href="#/c11">设置预算</a><a class="chip" href="#/c17">计划付款与周期扣款</a><a class="chip" href="#/c18">证件到期提醒</a><a class="chip" href="#/c13">备份与换手机</a><a class="chip chip-main" href="#/c19">常见操作速查</a></div>
+</section>
+<section class="menu" aria-labelledby="menu-h">
+<h2 id="menu-h" class="home-h">主菜单</h2>
+<section class="group"><h3 class="group-name">入门上手</h3><div class="rows"><a class="row" href="#/c1"><span class="seal">一</span><span class="row-main"><span class="row-t">这是一款什么样的 App</span><span class="row-s">完全离线的个人/家庭记账 App：数据只在本机，支持多种账户、多位成员和加密锁。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c2"><span class="seal">二</span><span class="row-main"><span class="row-t">首次使用：设置密码锁</span><span class="row-s">第一次设置密码、开启指纹/人脸解锁，以及忘记密码的后果。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c3"><span class="seal">三</span><span class="row-main"><span class="row-t">主界面（Dashboard）总览</span><span class="row-s">首页每个区块显示什么，隐私模式、Insights 侧栏和“+”按钮怎么用。</span></span><span class="chev" aria-hidden="true"></span></a></div></section><section class="group"><h3 class="group-name">记账与账户</h3><div class="rows"><a class="row" href="#/c4"><span class="seal">四</span><span class="row-main"><span class="row-t">记一笔账</span><span class="row-s">收入、支出、转账；Quick Add、拆分、标签、附件；退款、报销与待收回款项。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c5"><span class="seal">五</span><span class="row-main"><span class="row-t">账户管理</span><span class="row-s">账户类型、分组与子分组，以及净值、Logo 等常用字段。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c6"><span class="seal">六</span><span class="row-main"><span class="row-t">家庭成员与联名账户</span><span class="row-s">添加家庭成员、设置联名账户，并按成员查看资产和报表。</span></span><span class="chev" aria-hidden="true"></span></a></div></section><section class="group"><h3 class="group-name">报表与投资</h3><div class="rows"><a class="row" href="#/c7"><span class="seal">七</span><span class="row-main"><span class="row-t">报表与统计</span><span class="row-s">各个报表能回答什么问题，以及怎样同时对照两种货币。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c8"><span class="seal">八</span><span class="row-main"><span class="row-t">基金、黄金与定期存款</span><span class="row-s">基金从建立到清仓的完整流程、实物黄金记录方法，以及定期存款操作。</span></span><span class="chev" aria-hidden="true"></span></a></div></section><section class="group"><h3 class="group-name">分类、工资与预算</h3><div class="rows"><a class="row" href="#/c9"><span class="seal">九</span><span class="row-main"><span class="row-t">分类、标签与模板管理</span><span class="row-s">管理收支分类、标签和记账模板。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c10"><span class="seal">十</span><span class="row-main"><span class="row-t">工资录入</span><span class="row-s">工资、公积金供款与各类津贴的专用录入表单。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c11"><span class="seal">十一</span><span class="row-main"><span class="row-t">预算管理</span><span class="row-s">月度/年度预算、分类预算，以及首页预算进度条的来源。</span></span><span class="chev" aria-hidden="true"></span></a></div></section><section class="group"><h3 class="group-name">设置与数据</h3><div class="rows"><a class="row" href="#/c12"><span class="seal">十二</span><span class="row-main"><span class="row-t">设置总览</span><span class="row-s">设置页各图标入口：主题、货币、成员、分类、备份、自动锁定等。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c13"><span class="seal">十三</span><span class="row-main"><span class="row-t">备份与恢复数据</span><span class="row-s">加密导出与导入备份，换设备或换网址前必读。</span></span><span class="chev" aria-hidden="true"></span></a></div></section><section class="group"><h3 class="group-name">更多功能</h3><div class="rows"><a class="row" href="#/c14"><span class="seal">十四</span><span class="row-main"><span class="row-t">物品库存管理</span><span class="row-s">登记贵重物品与保修期限，并导出库存清单。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c15"><span class="seal">十五</span><span class="row-main"><span class="row-t">附件管理与打印导出</span><span class="row-s">附件查看与清理、CSV 导出和打印。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c16"><span class="seal">十六</span><span class="row-main"><span class="row-t">吉祥物与净值卡装饰</span><span class="row-s">用照片库给首页和月度趋势图配上小吉祥物。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c17"><span class="seal">十七</span><span class="row-main"><span class="row-t">计划付款与周期扣款</span><span class="row-s">把还没到付款日的账单存成计划，并设置周期重复。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c18"><span class="seal">十八</span><span class="row-main"><span class="row-t">提醒事项</span><span class="row-s">登记护照、驾照、保险等证件的续期日期，到期前在首页提醒。</span></span><span class="chev" aria-hidden="true"></span></a></div></section><section class="group"><h3 class="group-name">速查与记录</h3><div class="rows"><a class="row" href="#/c19"><span class="seal">十九</span><span class="row-main"><span class="row-t">常见操作速查</span><span class="row-s">“我想做某件事，该去哪里？”——一张速查表。</span></span><span class="chev" aria-hidden="true"></span></a><a class="row" href="#/c20"><span class="seal">二十</span><span class="row-main"><span class="row-t">版本更新记录</span><span class="row-s">从 v1 到 v423 的完整变更记录，可按版本段筛选。</span></span><span class="chev" aria-hidden="true"></span></a></div></section>
+</section>
+<section class="about"><div class="callout callout-info">
+<div class="callout-title">关于本手册</div>
+<p>本手册面向<strong>日常使用者</strong>，介绍如何操作这款个人/家庭记账 PWA 应用的各项功能，不涉及部署和开发细节（部署相关请参考另一份《部署配置备忘单》笔记）。内容整理自 v255 版本的实际程序界面，并已根据 v256–v423 的变更记录同步更新。</p>
+</div></section>
+</div>
+</section>
+    <article id="view-chapter" hidden>
+<section class="chapter" data-n="1" id="ch-1" hidden aria-labelledby="ch-1-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">一</span>
+<div class="ch-head-t">
+<h2 id="ch-1-title" class="ch-title"><span class="sr">第一节 </span>这是一款什么样的 App</h2>
+<p class="ch-sum">完全离线的个人/家庭记账 App：数据只在本机，支持多种账户、多位成员和加密锁。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p><strong>Ledger</strong> 是一个安装到手机主屏幕、<strong>完全离线运行</strong>的个人/家庭记账应用：</p>
+<ul>
+<li>所有数据只保存在<strong>本机浏览器本地数据库</strong>里，不会上传到任何服务器；</li>
+<li>支持<strong>多种账户类型</strong>（普通户口、信用卡、多币种、定期存款、单位信托基金、实物黄金等）；</li>
+<li>支持<strong>多个家庭成员</strong>、联名账户，可分别查看每个人的净资产；</li>
+<li>内置<strong>密码/生物识别加密锁</strong>，别人拿到你的手机也打不开账本；</li>
+<li>提供多种<strong>报表和图表</strong>，帮助你看清收支和资产分布。</li>
+</ul>
+<p>打开方式：从主屏幕点击 App 图标（首次需按部署手册"安装到主屏幕"）。</p>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/"><span class="nav-l">返回</span><span class="nav-t">主菜单</span></a><a class="nav-card next" href="#/c2"><span class="nav-l">下一节</span><span class="nav-t">二　首次使用：设置密码锁</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="2" id="ch-2" hidden aria-labelledby="ch-2-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">二</span>
+<div class="ch-head-t">
+<h2 id="ch-2-title" class="ch-title"><span class="sr">第二节 </span>首次使用：设置密码锁</h2>
+<p class="ch-sum">第一次设置密码、开启指纹/人脸解锁，以及忘记密码的后果。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span><span>1 个小节</span></div>
+</div>
+</header>
+<div class="prose">
+<p>第一次打开 App 时会看到 <strong>"Set an App Passcode"</strong> 设置页：</p>
+<ol>
+<li>输入一个密码（<strong>至少 4 位</strong>），再输入一次确认；</li>
+<li>点击 <strong>"Create &amp; Continue"</strong>。</li>
+</ol>
+<div class="callout callout-warning">
+<div class="callout-title">没有找回机制</div>
+<p>这个密码同时是<strong>数据加密的密钥来源</strong>（PBKDF2 + AES-GCM）。<strong>忘记密码 = 无法解密数据</strong>，没有"找回密码"这一说——只能在解锁页点 <strong>"Forgot passcode? Reset app data"</strong> 清空重来。请务必把密码记在安全的地方。</p>
+</div>
+<p>设置完密码后，系统可能会询问是否开启<strong>指纹/人脸快捷解锁</strong>（需要设备支持，且只在 HTTPS 环境下可用，本地 <code>file://</code> 打开时会自动隐藏这个选项）。</p>
+<h3 id="c2-s1">之后每次打开 App</h3>
+<ul>
+<li>会看到解锁页，输入密码，或点击 <strong>"🫆 Unlock with Biometrics"</strong> 用指纹/人脸解锁；</li>
+<li>页面下方有一个<strong>数字键盘</strong>方便手机上快速输入纯数字密码（也可以直接点输入框用系统键盘打字，密码不限于纯数字）；</li>
+<li>解锁页右下角有一个小版本号标签，方便确认当前运行的是哪个版本。</li>
+</ul>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c1"><span class="nav-l">上一节</span><span class="nav-t">一　这是一款什么样的 App</span></a><a class="nav-card next" href="#/c3"><span class="nav-l">下一节</span><span class="nav-t">三　主界面（Dashboard）总览</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="3" id="ch-3" hidden aria-labelledby="ch-3-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">三</span>
+<div class="ch-head-t">
+<h2 id="ch-3-title" class="ch-title"><span class="sr">第三节 </span>主界面（Dashboard）总览</h2>
+<p class="ch-sum">首页每个区块显示什么，隐私模式、Insights 侧栏和“+”按钮怎么用。</p>
+<div class="ch-meta"><span>约 3 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>解锁后进入的首页从上到下依次是：</p>
+<div class="table-wrap t2"><table>
+<thead>
+<tr>
+<th>区块</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顶部工具条</td>
+<td>基准货币按钮（⚙ 图标，点击可切换/设置基准货币）、🙈/👁️ <strong>隐私模式</strong>开关、💾 保存、🔒 <strong>立即锁定</strong>按钮（三个图标已统一为同一线框风格；顺序为 保存 → 隐私模式 → 锁定，锁定图标紧邻隐私模式眼睛图标）</td>
+</tr>
+<tr>
+<td><strong>Net Worth</strong>（总净值）</td>
+<td>全部账户换算成基准货币后的总资产；点击可展开 <strong>Financial Assets（金融资产）</strong> 与 <strong>Real Estate（房地产）</strong> 两项拆分小卡片</td>
+</tr>
+<tr>
+<td><strong>Net Worth by Member</strong>（按成员净值）</td>
+<td>每位家庭成员 + 每个联名组合各一行，点击任意行进入该成员专属页面；标题旁 ▾ 按钮可折叠/展开</td>
+</tr>
+<tr>
+<td>FD / 信用卡到期提醒</td>
+<td>有定期存款即将到期或信用卡还款日临近时，会在此处显示提醒条</td>
+</tr>
+<tr>
+<td>🎯 <strong>Budget</strong>（预算小组件）</td>
+<td>始终只显示一条进度条：当月自己设置的预算，或——如果当月没有单独设置——由年度预算自动衍生出的额度，此时下方会带一行"🔄 来自 XXXX 年度预算"的小字说明；点击进入完整 Budget 页面</td>
+</tr>
+<tr>
+<td>🔖 <strong>Tag Reminders</strong>（标签提醒）</td>
+<td>列出所有开启了"📌 显示为 Dashboard 提醒"的标签，各显示当前挂着该标签的交易数与总额；点击某一行直接跳转到该标签的 Spending by Tag 报表；某个标签下已没有匹配交易时会自动从此处消失</td>
+</tr>
+<tr>
+<td>🔔 <strong>Reminders</strong>（提醒事项）</td>
+<td>护照、驾照、保险等定期续期日期的提醒；只有某条提醒进入自己的提前提醒天数窗口、或已经逾期时才会出现，没有符合的就整块隐藏；点标题进入完整列表，详见<a class="xref" href="#/c18">第十八节</a></td>
+</tr>
+<tr>
+<td><strong>Financial Report Card</strong>（收支报表卡）</td>
+<td>两张迷你卡片（默认"本年 / 本月"，可各自切换统计周期），配环形图显示收入/支出/净额</td>
+</tr>
+<tr>
+<td><strong>Monthly Trend</strong>（月度趋势柱状图）</td>
+<td>按年查看每月收支柱状图，可切换年份、可开启"自动缩放"避免某个月异常值把其它柱子压扁</td>
+</tr>
+<tr>
+<td><strong>Accounts</strong>（账户小组件）</td>
+<td>精选/常用账户的快捷列表，点标题进入完整的"Financial Accounts"页面</td>
+</tr>
+<tr>
+<td><strong>Recent Transactions</strong>（近期交易）</td>
+<td>最近若干笔交易的快捷列表</td>
+</tr>
+<tr>
+<td>右侧 <strong>Insights</strong> 侧栏</td>
+<td>宽屏（≥1400px）时常驻显示；窄屏（&lt;768px，手机）时以手指滑动的抽屉形式呼出；中间宽度（768–1399px，含大多数平板）也已改为同款滑动抽屉，滑出时带半透明遮罩，点遮罩可关闭</td>
+</tr>
+<tr>
+<td>右下角 <strong>"+"</strong> 悬浮按钮</td>
+<td>点开后展开 <strong>Transfer（转账）/ Salary（工资）/ Income（收入）/ Expense（支出）</strong> 四个快速记账入口</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">隐私模式</div>
+<p>点亮 🙈 图标后，Net Worth / Financial Assets / Real Estate 的数字会被"毛玻璃"模糊处理；轻点一下数字可临时显示，再点一下或关闭开关/重启 App 会重新模糊。<strong>每次重新打开 App，模糊状态都会重置为"隐藏"</strong>（不会记住上次"已显示"的状态），避免在别人面前不小心暴露金额。</p>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c2"><span class="nav-l">上一节</span><span class="nav-t">二　首次使用：设置密码锁</span></a><a class="nav-card next" href="#/c4"><span class="nav-l">下一节</span><span class="nav-t">四　记一笔账</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="4" id="ch-4" hidden aria-labelledby="ch-4-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">四</span>
+<div class="ch-head-t">
+<h2 id="ch-4-title" class="ch-title"><span class="sr">第四节 </span>记一笔账（收入 / 支出 / 转账 / 工资）</h2>
+<p class="ch-sum">收入、支出、转账；Quick Add、拆分、标签、附件；退款、报销与待收回款项。</p>
+<div class="ch-meta"><span>约 6 分钟读完</span><span>2 个小节</span></div>
+</div>
+</header>
+<div class="prose">
+<p>点击首页右下角 <strong>"+"</strong> 按钮，选择类型后会弹出记账表单，主要字段：</p>
+<ul>
+<li><strong>✨ Quick Add（快速记账）</strong>：表单最顶部有一个自动获得焦点的输入框，可以直接打字或粘贴一句话，如"Lunch RM25 KFC"或"咖啡15块上周五"，App 会<strong>完全离线</strong>解析出金额、（相对）日期、描述，并尝试匹配历史记录或内置关键词猜出分类——金额/日期/描述解析出来直接填入下方表单，分类则以候选圆片形式出现，点一下确认（只在和当前表单收入/支出类型一致时才会出现候选）；命中历史记录时账户也会一并预选；</li>
+<li><strong>金额</strong>（Amount）：支持右侧的计算器/数字键盘小图标，方便直接在里面做加减乘除；</li>
+<li><strong>分类</strong>（Category）：点击弹出的分类选择器（自定义弹窗，字体大小可读性更好）；支持"拆分（Split）"——一笔交易同时记到多个分类，点 <strong>"+"</strong> 增加拆分行；退款（Refund）交易的分类默认预填原支出分类，但同样完整展示所有支出分类供你自由改选，不再锁定；</li>
+<li><strong>标签</strong>（Tags）：表单底部字段，用于给一趟旅行/一次报销的所有相关交易打上同一个标记。输入几个字即可模糊匹配已有标签（搜索范围是标签名任意位置，不只是开头），没有匹配项时会出现 <strong>"+ Create tag"</strong> 一键创建并附加；每笔交易可挂多个标签，以小圆片形式展示，可随时移除；<strong>转账交易不显示此字段</strong>。标签可以提前在 Setting → 🔖 <strong>Manage Tags</strong> 里建好，也可以记账时随手新建；交易详情（Quick View）的 "Tags:" 行同样有一个 <strong>"+ Add"</strong> 按钮，可弹出标签选择器（勾选式多选、支持搜索/新建），不必绕回记账表单；</li>
+<li><strong>账户 / 转入账户</strong>（Account / To Account）：转账类交易需要选择来源和目的账户；</li>
+<li><strong>日期</strong>（Date）；</li>
+<li><strong>描述</strong>（Description）：必填，输入时会<strong>自动联想</strong>你历史上用过的描述（模糊匹配，输入片段即可命中，匹配部分会高亮）；</li>
+<li><strong>备注</strong>（Notes）：可选；</li>
+<li><strong>附件</strong>（Attachments）：可拍照或从相册/文件选择照片、PDF，一笔交易可加多个附件，之后可在交易详情里预览/下载；</li>
+<li>涉及<strong>外币转账</strong>时，可开启"Currency Conversion"手动填汇率或实际到账金额，二者互相联动计算，且一旦记录就永久锁定，不受后续汇率表变化影响；</li>
+<li>涉及<strong>定期存款（FD）</strong>账户时，表单会显示利率、起息日、期限（月）、到期日等专属字段，到期日自动计算。</li>
+</ul>
+<p>填好后点击 <strong>"Commit Entry"</strong> 保存。编辑已有交易时，表单底部会出现红色 <strong>"🗑 Delete Entry"</strong> 删除按钮。</p>
+<div class="callout callout-tip">
+<div class="callout-title">还没到付款日？先存成"计划"</div>
+<p>新建 Income/Expense 时，"Commit Entry" 旁边还有一个 <strong>"🕒 Save as Planned"</strong> 按钮，以及一个 <strong>"🔁 Repeat"</strong> 开关——用来记一笔还没发生、以后才要付的账单（房租、订阅等），不会立即影响余额。详见<a class="xref" href="#/c17">第十七节</a>「计划付款与周期扣款」。</p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">用标签统计一整趟旅行的花费</div>
+<p>例如出国旅行：先建一个"日本旅行 2026年8月"标签，记账时不管这笔钱是机票、住宿还是餐饮（各归各的分类），都顺手挂上这个标签。之后在报表里打开 <strong>Spending by Tag</strong>（见<a class="xref" href="#/c7">第七节</a>），就能一次性看到这趟旅行不分类别、不分月份的总花费。</p>
+</div>
+<h3 id="c4-s1">退款与报销（Refund / Reimbursement）</h3>
+<p>交易的 <strong>Options</strong> 弹窗里，原来的 "🔄 Refund" 已拆分为两个按钮：<strong>↩️ Refund</strong>（普通退款）与 <strong>💰 Reimbursement</strong>（报销）。两者打开同一张表单、保存逻辑完全一样，数据库里只用 <code>refundReason</code> 字段区分显示的徽章文字，互不影响原有的退款计算规则。</p>
+<p>已报销/已退款的支出，其原交易行会自动显示一个绿色的 <strong>"✅ Claimed"</strong>（或 "✅ Refunded"）徽章，点击可直接跳转到对应的报销/退款记录。</p>
+<div class="callout callout-tip">
+<div class="callout-title">一键打开报销表单</div>
+<p>挂有标签的支出会在交易行上显示一个可点击的 🔖 标签徽章（Dashboard、账本列表、Spending by Tag 报表里都有）。点一下该徽章会<strong>直接打开预填好金额/账户/分类的 Reimbursement 表单</strong>，不再是先跳去 Spending by Tag 报表。表单里还会多出一个开关"🔖 Remove '标签名' tag from the original transaction"（默认开启）——保存报销时如果开着，原支出上的这个标签会被自动摘掉，无需再回去手动编辑一次；如果是分批结清（部分报销），可以先关掉这个开关保留标签。</p>
+<p>也可以在交易详情（Quick View）里直接管理标签：详情页有一行 "Tags:"，每个标签旁都带一个小 "✕"，点了就能单独移除某个标签，不必绕道报销表单。</p>
+</div>
+<h4 id="c4-s2">待报销支出：Claims Receivable（应收报销款）</h4>
+<p>首页 "+" 悬浮按钮和任意账户 Activity 页面的 "+" 里都有一个 <strong>🧾 Lend / Claim</strong> 快捷入口：记一笔待报销/待收回的支出（例如代垫的公司费用、借出去的钱），系统会把这笔钱转入一个叫 <strong>"Claims Receivable"（应收款）</strong> 的资产类账户（归在 Other Assets 分组），并自动挂上 <strong>"Pending Claim"</strong> 标签。这类支出会<strong>天然不计入</strong>报表和预算——因为在账本结构上它属于"资产之间的转移"，而不是真正花掉的支出。</p>
+<ul>
+<li>首页 <strong>Tag Reminders</strong> 小组件和 <strong>Spending by Tag → Pending Claim</strong> 报表都会显示当前有多少笔、共多少钱还没收回；</li>
+<li>钱到账后，回到某一笔上点 🔖 标签徽章即可打开 Reimbursement 表单结清；</li>
+<li>
+<p><strong>🧾 Settle Multiple Bills as One Claim</strong>（只在 Spending by Tag → Pending Claim 视图下出现）：适合"一笔汇款同时结清好几笔代垫款"的场景。点开后是一份待结清账单的勾选清单（默认全选，可取消不在本次结清范围内的），填入实际收到的金额、日期和入账账户，页面会实时显示：</p>
+<ul>
+<li>所选账单的合计；</li>
+<li>⚠️ <strong>短收</strong>（实收 &lt; 账单合计）——会记一笔普通支出，类别可自选（默认 "Other Expenses"）；</li>
+<li>🎉 <strong>多收</strong>（实收 &gt; 账单合计）——会记一笔普通收入，类别可自选（默认 "Other Income"）。</li>
+</ul>
+<p>保存后会生成<strong>一笔</strong>报销收入记录（Notes 里列明每笔账单的日期/描述/金额），短收/多收部分单独另记一笔正常收支（会计入报表和预算），所有被结清的账单同时摘掉 "Pending Claim" 标签。若勾选的账单涉及不同币种，会提示分批分别结清，暂不支持跨币种一次性汇总。</p>
+</li>
+</ul>
+<h3 id="c4-s3">交易模板（⭐ 按钮）</h3>
+<p>表单左上角有个 <strong>⭐</strong> 图标，点击可以从"模板"里一键带出常用交易的账户、分类、拆分设置（例如每月固定的房租/水电），无需每次手打。模板本身在 <strong>Setting → Manage Categories 旁的 Templates</strong> 页面里维护（新增/编辑/删除）。</p>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c3"><span class="nav-l">上一节</span><span class="nav-t">三　主界面（Dashboard）总览</span></a><a class="nav-card next" href="#/c5"><span class="nav-l">下一节</span><span class="nav-t">五　账户管理</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="5" id="ch-5" hidden aria-labelledby="ch-5-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">五</span>
+<div class="ch-head-t">
+<h2 id="ch-5-title" class="ch-title"><span class="sr">第五节 </span>账户管理（Financial Accounts）</h2>
+<p class="ch-sum">账户类型、分组与子分组，以及净值、Logo 等常用字段。</p>
+<div class="ch-meta"><span>约 3 分钟读完</span><span>4 个小节</span></div>
+</div>
+</header>
+<div class="prose">
+<p>侧边栏 → <strong>Financial Accounts</strong>，或首页 Accounts 小组件标题进入。</p>
+<h3 id="c5-s1">账户类型（Account Type）</h3>
+<p>新建账户时先选类型：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>图标</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal（普通）</td>
+<td>🏛️</td>
+<td>一般银行户口、现金账户</td>
+</tr>
+<tr>
+<td>Credit Card（信用卡）</td>
+<td>💳</td>
+<td>记录信用额度、账单日、还款到期日，支持还款提醒；如果多张卡共用同一笔额度（如同一家银行的 Visa+Mastercard），可在其中一张上正常填 Credit Limit，另一张的「🔗 Shares Credit Limit With」下拉框里选前者——之后两张卡显示的 Limit 会标注 "(shared)"，Available 则自动合并扣减两张卡的欠款，选了共享对象的那张卡自己的 Credit Limit 会被清空/忽略；账单欠款（💳 Amount due）仍按每张卡各自独立显示</td>
+</tr>
+<tr>
+<td>Multi-Currency（多币种）</td>
+<td>💱</td>
+<td>一个账户下持有多种外币现金，各币种分别记账，自动折算基准货币等值</td>
+</tr>
+<tr>
+<td>Fixed Deposit（定期存款）</td>
+<td>🏦</td>
+<td>支持多笔定存本金（Placement），到期可"Resolve Maturity"续存或转出</td>
+</tr>
+<tr>
+<td>Unit Trust（单位信托基金）</td>
+<td>🧺</td>
+<td>记录买入/卖出/股息再投资，自动计算投入成本、已回收金额、盈亏（P/L）、年化收益率；<strong>黄金（金条/金饰/银行黄金账户）也用这个类型</strong>，Sub-Group 选 Gold，见<a class="xref" href="#/c8">第八节</a>；基金的完整使用流程见<a class="xref" href="#/c8">第八节</a> <strong>📊 单位信托基金使用指南</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="c5-s2">账户分组（Group）与子分组（Sub-Group）</h3>
+<p>除了"类型"，每个账户还要归到一个<strong>分组</strong>，用于在列表里分类展示：</p>
+<ul>
+<li>🏦 Bank/Cash（子分组：Current Account / Savings Account / Cash Account）</li>
+<li>💳 Credit Card</li>
+<li>💱 Multi-Currency</li>
+<li>📈 Investment（子分组：Fixed Deposit / KWSP / CPF / ASNB / <strong>PTPTN</strong> / Unit Trust / <strong>Gold</strong>）</li>
+<li>🏠 Real Estate（可额外填写：物业类型、持有起始日、产权 Freehold/Leasehold、租期年限/到期日、赎楼贷款金额）</li>
+<li>💼 Other Assets</li>
+<li>💸 Bank Loan</li>
+<li>🧾 Other Liabilities</li>
+</ul>
+<p>其他常用字段：账户名称、账户号/参考号（可选）、是否计入首页净值（Include in Net Worth）、拥有者（Owner，一个人=个人账户，多选=联名账户）、关联账户（如贷款关联对应的房产）、<strong>Logo</strong>（可上传任意图片作为该账户的图标，自动裁成方形，不上传则沿用原来的字母渐变徽章，随加密备份一起导出/导入）。</p>
+<h3 id="c5-s3">侧边栏账户类型快捷入口</h3>
+<p>侧边栏 "Financial Accounts" 下方会展开各账户类型（Current Account、Fixed Deposit…）的快捷方式，点进去只看该类型账户，且会自动过滤掉余额为 0 的账户（例如已结清的定存）。</p>
+<h3 id="c5-s4">关于 Sub-Total 分界线</h3>
+<p>在未过滤的完整 "Financial Accounts" 列表里，某个子分组下如果<strong>只有一个账户</strong>，不会重复显示一行数字相同的 Sub-Total，但会保留一条细分隔线，标出这个账户与相邻子分组（或"无子分组"账户段落）的边界，避免误以为它属于旁边的分组。点进具体分组的过滤视图（如单独点 "Fixed Deposit"）则不受此影响，每个子分组照常显示 Sub-Total。</p>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c4"><span class="nav-l">上一节</span><span class="nav-t">四　记一笔账</span></a><a class="nav-card next" href="#/c6"><span class="nav-l">下一节</span><span class="nav-t">六　家庭成员与联名账户</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="6" id="ch-6" hidden aria-labelledby="ch-6-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">六</span>
+<div class="ch-head-t">
+<h2 id="ch-6-title" class="ch-title"><span class="sr">第六节 </span>家庭成员与联名账户</h2>
+<p class="ch-sum">添加家庭成员、设置联名账户，并按成员查看资产和报表。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>侧边栏 → <strong>Members</strong> 板块可以看到每位成员（彩色圆点 + 姓名）。</p>
+<ul>
+<li><strong>Manage Members</strong>：新增/编辑/删除成员，每人可设专属颜色；</li>
+<li>新建/编辑账户时，"Owner(s)" 多选框：勾选一人 = 个人账户；勾选多人（如 Husband + Wife）= 联名账户，会在净值报表里自动聚合成独立的"联名"条目；</li>
+<li>点击某位成员进入其专属页面：净资产卡片（可持多币种时点击展开明细）+ 该成员名下所有账户列表；</li>
+<li>收支报表（Spending/Income Breakdown）支持按成员筛选，选定某人则只统计其<strong>个人</strong>账户（不含联名）。</li>
+</ul>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c5"><span class="nav-l">上一节</span><span class="nav-t">五　账户管理</span></a><a class="nav-card next" href="#/c7"><span class="nav-l">下一节</span><span class="nav-t">七　报表与统计</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="7" id="ch-7" hidden aria-labelledby="ch-7-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">七</span>
+<div class="ch-head-t">
+<h2 id="ch-7-title" class="ch-title"><span class="sr">第七节 </span>报表与统计（侧边栏 &quot;Reports&quot; 分组）</h2>
+<p class="ch-sum">各个报表能回答什么问题，以及怎样同时对照两种货币。</p>
+<div class="ch-meta"><span>约 3 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<div class="table-wrap t2"><table>
+<thead>
+<tr>
+<th>报表名称</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total Bill Summary</strong>（总账单汇总，Reports 分组顶部项）</td>
+<td>按年列出历年收入/支出/结余，另有 <strong>Total</strong>（全部时间合计）与 <strong>Yearly Average</strong>（年均）两行；点击 Total 或某一年的 Balance 数值可直接跳转到 Net Savings Statement 并自动按对应年份（或"All Years"）筛选，Yearly Average 行因不对应真实期间而不可点击</td>
+</tr>
+<tr>
+<td><strong>Spending Breakdown</strong>（支出分类）</td>
+<td>按月/年/成员筛选，饼图或柱状图查看各支出分类占比</td>
+</tr>
+<tr>
+<td><strong>Income Breakdown</strong>（收入分类）</td>
+<td>同上，针对收入</td>
+</tr>
+<tr>
+<td><strong>Spending by Tag</strong>（按标签统计）</td>
+<td>选定一个标签，查看该标签下所有交易的收入/支出/净额合计、这些交易实际跨越的日期范围与笔数、按分类的支出细分（环形图，与 Spending Breakdown 同款样式），以及完整的逐笔交易列表（点任意一笔可打开详情）。适合统计不按月份、不按单一分类划分的整趟旅行或整次报销</td>
+</tr>
+<tr>
+<td><strong>Unit Trust Portfolio</strong>（基金组合）</td>
+<td>全部基金账户合并后的总览：顶部大字显示组合市值（Portfolio Value）和收益率徽章，卡内直接列出 <strong>Current Invested + Profit / Loss = Portfolio Value</strong> 的等式，再用一条分段条拆开 Total Invested（Current Invested / Recovered）；下方 <strong>Fund Detail</strong>（默认收起，点右侧 ▸ 展开）按账户分组，逐只列出市值、Invested、Current Inv.、P/L、Return。可用 Member 下拉框只看某位成员（含或不含联名）。如何读这张卡，见<a class="xref" href="#/c8">第八节</a></td>
+</tr>
+<tr>
+<td><strong>Financial Assets vs Real Estate</strong>（金融资产 vs 房产）</td>
+<td>资产/负债的宏观拆分视图</td>
+</tr>
+<tr>
+<td><strong>Net Worth by Currency</strong>（按币种净值）</td>
+<td>按持有货币分别列出净资产，含金融资产/房产/负债细分</td>
+</tr>
+<tr>
+<td><strong>Net Worth Statement</strong>（净值报表）</td>
+<td>点击任意账户行可直接跳转到该账户</td>
+</tr>
+</tbody>
+</table></div>
+<p>首页的 <strong>Financial Report Card</strong> 与 <strong>Monthly Trend</strong> 也属于报表功能，无需单独进入侧边栏，日常查看更方便。</p>
+<div class="callout callout-tip">
+<div class="callout-title">退款金额的正负号与颜色</div>
+<p>报表和分类明细里的金额会按"这个分类/合计实际净效果"来决定正负号和颜色，而不是死板地按"支出分类永远显示负号"：如果某个支出分类当月因退款金额较大导致净额转正（等于变相帮你省了钱），会显示为绿色的 <code>+</code>；正常花费则仍是红色的 <code>-</code>。"Total Income" / "Total Expense" 合计也遵循同一规则。</p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">同时看两种货币：Compare also in</div>
+<p>Net Worth by Currency 页面顶部（Member 筛选下方）有一个 <strong>"Compare also in"</strong> 下拉框，选一种货币后，表格会在原有的 "≈基准货币" 一列旁再加一列该货币的等值金额，方便不用来回切换基准货币设置就能同时看两个视角；选 "None" 就回到只显示一列。首页净值卡片也会同步显示一个对照货币的小徽章。</p>
+<p>Net Savings Statement / Spending Breakdown / Income Breakdown 里，凡是分类款项来自基准货币以外的币种，行下方都会有一行小字换算提示：如果该分类<strong>全部</strong>来自同一种外币，显示"≈ 等值金额"；如果是<strong>部分</strong>来自外币、部分来自基准货币混合而成，显示"incl. 外币金额 ≈ 等值金额"（避免把"部分等于"误读成"全部等于"）。</p>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c6"><span class="nav-l">上一节</span><span class="nav-t">六　家庭成员与联名账户</span></a><a class="nav-card next" href="#/c8"><span class="nav-l">下一节</span><span class="nav-t">八　基金、黄金与定期存款</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="8" id="ch-8" hidden aria-labelledby="ch-8-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">八</span>
+<div class="ch-head-t">
+<h2 id="ch-8-title" class="ch-title"><span class="sr">第八节 </span>单位信托基金（Unit Trust）、黄金（Gold）与定期存款（FD）专属操作</h2>
+<p class="ch-sum">基金从建立到清仓的完整流程、实物黄金记录方法，以及定期存款操作。</p>
+<div class="ch-meta"><span>约 10 分钟读完</span><span>2 个小节</span></div>
+</div>
+</header>
+<div class="prose">
+<ul>
+<li><strong>基金</strong>：进入基金账户后可"Add Fund"新增持仓，记录 Buy / Sell / Dividend Reinvest / Dividend (Cheque Payout) 等交易类型；App 会自动区分"现金流水余额（Current Balance）"和"投资市值口径（Invested/Recovered，用于计算真实盈亏）"两套数字，两者算法不同、含义不同属正常现象。</li>
+<li><strong>Daily NAV Update</strong>（侧边栏）：手动录入基金每日净值，用于估算当前市值；如果同时持有基金和黄金，页面顶部会多出 <strong>All / 📊 Unit Trust / 🪙 Gold</strong> 三个标签，可以分开更新，详见下方黄金小节。</li>
+<li><strong>黄金（Gold）</strong>：实物金条、金饰、银行黄金账户（GIA）都按"克"记录，操作见下方 <strong>🪙 记录实物黄金</strong>。</li>
+<li><strong>定期存款（FD）</strong>：一个账户下可以有多笔独立的存款（Placement），侧边栏 Financial Accounts → Fixed Deposit 会展开列出每笔存款；到期前会在首页出现到期提醒；到期时用 <strong>"Resolve Maturity"</strong> 操作续存或转出本金+利息。</li>
+</ul>
+<h3 id="c8-s1">📊 单位信托基金使用指南（从建立到清仓）</h3>
+<p><strong>基本流程</strong></p>
+<ol>
+<li><strong>建账户</strong>：侧边栏 Financial Accounts → 新增账户，类型选 <strong>Unit Trust</strong>（Sub-Group 选 Unit Trust；黄金则选 Gold，见下一小节）。习惯上一家基金公司或一个投资平台建一个账户。</li>
+<li><strong>加基金</strong>：进入该账户 → <strong>Add Fund</strong>，填基金名称、Fund Code（可不填）、Category、Currency、<strong>Owner</strong>（可多选，联名基金选多位成员，之后才能按成员筛选）和 <strong>Current NAV</strong>（当前净值）。</li>
+<li><strong>记交易</strong>：在该基金点 <strong>+ Transaction</strong>，选 Type、日期、份额（Units）、单价（Price per Unit）和总金额（Total Amount）；填份额和单价会自动算出总金额，填份额和总金额则会自动算出单价（Dividend (Cheque Payout) 不涉及份额，只填总金额）。Buy 要选付款的银行/现金账户，Sell 和 Cheque Payout 要选收款账户，App 会自动生成对应的转账；Dividend (Reinvest) 和 Contribution 直接把份额加回基金，不需要选账户。</li>
+<li><strong>更新净值</strong>：侧边栏 <strong>Daily NAV Update</strong> → 📊 Unit Trust 标签 → 填当天净值 → Update All Prices。市值 = 份额 × 最新净值；<strong>不更新净值，市值就停在上一次填的数字</strong>。</li>
+<li><strong>看结果</strong>：账户页的 <strong>Fund Holdings</strong> 表看单个账户，侧边栏 Reports → <strong>Unit Trust Portfolio</strong> 看全部基金合并后的总览。</li>
+</ol>
+<p><strong>五种交易类型</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>份额</th>
+<th>现金</th>
+<th>对数字的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Buy</strong></td>
+<td>增加</td>
+<td>从你选的账户转入</td>
+<td>计入 Invested</td>
+</tr>
+<tr>
+<td><strong>Sell</strong></td>
+<td>减少</td>
+<td>转入你选的收款账户</td>
+<td>计入 Recovered</td>
+</tr>
+<tr>
+<td><strong>Dividend (Reinvest)</strong></td>
+<td>增加</td>
+<td>没有新增现金</td>
+<td>不计入 Invested，全部体现在 P/L</td>
+</tr>
+<tr>
+<td><strong>Dividend (Cheque Payout)</strong></td>
+<td>不变</td>
+<td>派息现金转入你选的账户</td>
+<td>计入 Recovered</td>
+</tr>
+<tr>
+<td><strong>Contribution</strong>（供款）</td>
+<td>增加</td>
+<td>没有新增现金</td>
+<td>不计入 Invested，全部体现在 P/L</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>每个数字是什么意思</strong></p>
+<div class="table-wrap t2"><table>
+<thead>
+<tr>
+<th>数字</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Value（市值）</strong></td>
+<td>份额 × 当前净值</td>
+</tr>
+<tr>
+<td><strong>Total Invested</strong></td>
+<td>历史上所有 Buy 的累计金额，卖出后也不会减少</td>
+</tr>
+<tr>
+<td><strong>Recovered</strong></td>
+<td>已经拿回手的现金：Sell 所得 + Cheque Payout 派息</td>
+</tr>
+<tr>
+<td><strong>Current Invested</strong></td>
+<td>Total Invested − Recovered，即"净投入"：投进去的钱减去已经拿回来的钱</td>
+</tr>
+<tr>
+<td><strong>P/L（盈亏）</strong></td>
+<td>Value + Recovered − Total Invested，包含已经落袋的盈亏和还没卖的浮动盈亏</td>
+</tr>
+<tr>
+<td><strong>Return（收益率）</strong></td>
+<td>P/L ÷ Total Invested，分母是 Total Invested，不是 Current Invested</td>
+</tr>
+<tr>
+<td><strong>Annualised（年化）</strong></td>
+<td>从第一笔交易起算到今天；持有不足约一个月时显示 "-"</td>
+</tr>
+</tbody>
+</table></div>
+<p>因为 <strong>Value + Recovered − Total Invested = P/L</strong>，所以把 Recovered 移到另一边就得到：<strong>Current Invested + P/L = Value</strong>。Unit Trust Portfolio 卡片就是围绕这条等式设计的。</p>
+<p><strong>Unit Trust Portfolio 卡片怎么读</strong></p>
+<ul>
+<li><strong>左上大字</strong>是组合市值（Portfolio Value）；<strong>右上徽章</strong>是收益率，绿色 ▲ 代表盈利、红色 ▼ 代表亏损，下方小字写明 "return on total invested"，提醒你分母是 Total Invested。</li>
+<li><strong>中间一行</strong>是 <code>= Current Invested + Profit / Loss</code>，两项相加正好等于上面的市值。</li>
+<li><strong>分段条</strong>：整条代表 <strong>Total Invested</strong>（标题行 <code>BAR = TOTAL INVESTED</code> 右侧是金额）。紫色段是 Current Invested，灰色段是 Recovered，下方两行图例写着各自的金额和占比。电脑端把鼠标放在色段上会显示说明；手机上没有悬停提示，看下方图例即可。</li>
+<li>多币种基金会先按汇率换算成基准货币（如 MYR）再合计，所以等式对多币种同样成立。</li>
+<li>卡片颜色全部跟随当前主题，浅色、深色和各种背景主题都会自动适配。</li>
+</ul>
+<div class="callout callout-warning">
+<div class="callout-title">Current Invested 是"净投入"，不等于"目前持有部分的成本"</div>
+<p>举例：基金 A 投入 1,000 仍在持有；基金 B 投入 5,000，全部赎回拿回 6,000。合计 Current Invested = 1,000 + (5,000 − 6,000) = <strong>0</strong>，尽管基金 A 里其实还有 1,000 的本金。原因是基金 B 赚的 1,000 已经拿走，会把整体的净投入抵掉。这个口径保证 <code>Current Invested + P/L = Value</code> 永远成立，但如果你有已清仓且盈利的基金，请不要把它理解为"现在还有多少本金在基金里"。账户表格里每只基金各自的 <strong>Current Inv.</strong> 一列也是同样的算法。</p>
+</div>
+<p><strong>全部赎回（清仓）一只基金</strong></p>
+<p>这个 App 没有单独的"关闭基金"按钮，全部赎回就是记一笔 Sell：</p>
+<ol>
+<li>进入该基金 → <strong>+ Transaction</strong> → Type 选 <strong>Sell</strong>。</li>
+<li><strong>Units 填当前持有的全部份额</strong>（从 Fund Holdings 表的 Units 列抄下来）；<strong>Total Amount 填实际到手的金额</strong>（已扣手续费的净额）。</li>
+<li>选收款的银行/现金账户，保存。赎回前如果还有未入账的派息支票，另外记一笔 <strong>Dividend (Cheque Payout)</strong>。</li>
+</ol>
+<p>保存后：基金份额变为 0，收款账户增加，基金的最终盈亏（已实现）= 赎回款 + 派息 − 总投入。</p>
+<ul>
+<li><strong>已清仓基金会折叠</strong>：份额为 0 且买入过的基金，在 Fund Holdings 和 Unit Trust Portfolio 的 Fund Detail 里合并成表格底部一行 <code>▸ 1 closed fund · Realized P/L +RM… · tap to show</code>，点一下展开，再点一下收起。这是全 App 共用的一个开关，每台设备各自记住你的选择，默认收起。<strong>折叠只是不列出，合计仍然包含它们</strong>。刚新增、还没有买入的基金不会被当成已清仓。</li>
+<li><strong>份额要填准</strong>：App 不检查 Units 是否超过持有量。填少了，剩下的份额还会按净值留在账上；填多了，份额只会减到 0，但这笔交易仍记着多填的数字。</li>
+<li><strong>不要删除已清仓的基金</strong>：Delete Fund 只删基金记录，交易保留，但 Unit Trust Portfolio 只统计还存在的基金，删除后它的投入、回收和已实现盈亏会从总览里消失。想保留历史，就让它留在 0 份额状态。</li>
+<li><strong>年化收益会逐渐下降</strong>：持有年数是从第一笔交易算到今天，而不是算到赎回日，所以已清仓基金的 Annualised 会随时间自动变小；判断它的最终表现，请看 Return 和 P/L。</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title">表格里的两套数字</div>
+<p>Fund Holdings 和 Fund Detail 的 <strong>Invested</strong> 是累计 Buy，<strong>Current Inv.</strong> 是 Invested − Recovered，二者加上 P/L 的关系不同：单只基金一定满足 <code>Current Inv. + P/L = Value</code>，而不是 <code>Invested + P/L = Value</code>。两个表格的悬停提示（鼠标放在列标题上）也写明了这一点。</p>
+</div>
+<h3 id="c8-s2">🪙 记录实物黄金（金条 / 金饰 / 银行黄金账户）</h3>
+<p>黄金在 App 里就是一只<strong>类别为 🪙 Gold 的基金（Fund）</strong>：份额单位换成<strong>克（g）</strong>，"净值"换成<strong>每克价格（RM/g）</strong>，其余——投入成本、已回收金额、盈亏、买卖自动生成转账——全部沿用基金持仓的算法，不需要另外学一套操作。银行黄金账户（如 Maybank GIA、PBB GIA）的记法完全一样：一家银行一个账户，每种纯度/来源一只持仓。</p>
+<p><strong>建立与买入</strong></p>
+<ol>
+<li><strong>建账户</strong>：侧边栏 Financial Accounts → 新增账户，类型选 <strong>Unit Trust</strong>，<strong>Sub-Group 选 Gold</strong>，账户名例如 "Physical Gold"。这样账户列表会显示 🪙 Gold 徽章，净值报表里也会单独列出一行 <strong>Gold</strong>。</li>
+<li><strong>加持仓</strong>：进入该账户 → <strong>Add Fund</strong> → Category 选 <strong>🪙 Gold</strong>。名称按实物填写（如 "999 Gold Bar 10g"、"916 Bracelet"），<strong>Purity / Source</strong> 一栏填纯度或来源（999、916、Maybank GIA 等）。<strong>不同纯度、不同品项各建一只持仓</strong>，成本和价格互不混算。</li>
+<li><strong>记买入</strong>：在该持仓点 <strong>+ Transaction</strong> → Type 选 <strong>Buy</strong>，填 <strong>Grams（克数）</strong> 和 <strong>Total（实际付出的总金额）</strong>，Price per Gram 会自动算出；再选付款的现金/银行账户（转账来源）。</li>
+<li><strong>设今日价格</strong>：在 Add/Edit Fund 里把 <strong>Today's Price (RM / gram)</strong> 填成<strong>金店/银行今天愿意回购的每克价格</strong>，而不是零售卖价。</li>
+<li><strong>卖出</strong>：+ Transaction → Type 选 <strong>Sell</strong>，填克数和实际收到的总金额，选收款账户。</li>
+</ol>
+<p><strong>日常更新价格</strong></p>
+<p>侧边栏 <strong>Daily NAV Update</strong> → 点 <strong>🪙 Gold</strong> 标签，只显示黄金持仓；此时点 "Update All Prices" 只会保存黄金的价格，不会碰到基金净值（反过来选 📊 Unit Trust 也一样）。History 视图同样跟随当前标签：选 Gold 只看黄金列，没有更新记录的日期行会自动隐藏。每只黄金持仓旁会显示 <strong>"priced X d ago"</strong> 提示上次更新价格是几天前，<strong>超过 2 天变红</strong>，提醒你价格可能已过时。</p>
+<div class="callout callout-tip">
+<div class="callout-title">溢价和工钱会显示成"浮亏"</div>
+<p>Total 填的是你实际付出的全部金额（含溢价、金饰工钱），而今日价格填的是回购价，所以买入当天就会看到一笔未实现亏损。这是"付出的成本"与"现在变现能拿回多少"之间的真实差额，不是记错。金条的差额通常较小，金饰的工钱损耗则可能大得多。</p>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">黄金交易不能原地编辑</div>
+<p>为避免账本悄悄偏离银行/金店的真实成交，黄金持仓的交易<strong>不能像普通交易那样修改</strong>，Type 也只有 Buy / Sell（没有股息类型）。记错了怎么办：点该交易行 → 按提示删除 → 重新记一笔正确的。</p>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">其他说明</div>
+<ul>
+<li><strong>保管费、保险费、银行黄金账户年费</strong>等，作为普通支出记一笔即可，不计入黄金持仓自己的盈亏。</li>
+<li>金价目前<strong>只能手动录入</strong>，App 不会联网自动抓取（保持完全离线）。</li>
+<li>如果你的黄金账户是在 Sub-Group 出现 "Gold" 选项之前建的（当时归在 Unit Trust 下），到 Edit Account 把 Sub-Group 改成 <strong>Gold</strong>，才会显示 🪙 徽章并计入净值报表的 Gold 一行。</li>
+</ul>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c7"><span class="nav-l">上一节</span><span class="nav-t">七　报表与统计</span></a><a class="nav-card next" href="#/c9"><span class="nav-l">下一节</span><span class="nav-t">九　分类、标签与模板管理</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="9" id="ch-9" hidden aria-labelledby="ch-9-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">九</span>
+<div class="ch-head-t">
+<h2 id="ch-9-title" class="ch-title"><span class="sr">第九节 </span>分类、标签与模板管理</h2>
+<p class="ch-sum">管理收支分类、标签和记账模板。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>侧边栏 → <strong>Setting → Manage Categories</strong>：</p>
+<ul>
+<li>收入分类、支出分类分开管理，可新增/编辑（含图标 emoji）/删除；</li>
+<li>首次启动会自动预置一批常用分类（如 Dividend EPF、FD Interest Income、Bank Charges、Education、Family 等），已删除或改名的分类不会被重新加回；</li>
+<li>图标选择面板会持续新增可选 emoji（例如动物、文具类图标），新增后无需重装或清除数据，下次打开 App 会自动出现在对应分组的选择面板里。</li>
+</ul>
+<p>侧边栏 → <strong>Setting → 🔖 Manage Tags</strong>：</p>
+<ul>
+<li>一个简单的标签列表，可以预先建好常用的行程/报销标签，也可以完全空着，记账时随手创建；</li>
+<li>标签在存储上与分类（Category）的实现方式相同——以文字直接保存，而不是引用 ID——所以<strong>事后重命名一个标签，不会连带把历史交易上的名字一起改掉</strong>（分类也有同样的特性）；</li>
+<li>每个标签可以单独设置<strong>图标</strong>（🔖 🏷️ 📌 🎫 📎 🗂️ ⭐ 💠 🔗 🚩 🔸 # 等可选）与<strong>颜色</strong>（紫/红/橙/琥珀/绿/青/蓝/靛/粉/灰），点 ✏️ 编辑（或新建标签时）即可设置，带实时预览圆片；设置好后会同步显示在账本行标签徽章、Dashboard 的 Tag Reminders 小组件、交易详情 Tags 行等所有出现该标签的地方。尚未单独设置过的旧标签会保持原样（🔖、紫色），不受影响。</li>
+</ul>
+<p>侧边栏 → <strong>Setting → Templates</strong>：维护常用的记账模板（含拆分设置），供记账表单里的 ⭐ 按钮调用。</p>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c8"><span class="nav-l">上一节</span><span class="nav-t">八　基金、黄金与定期存款</span></a><a class="nav-card next" href="#/c10"><span class="nav-l">下一节</span><span class="nav-t">十　工资录入</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="10" id="ch-10" hidden aria-labelledby="ch-10-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十</span>
+<div class="ch-head-t">
+<h2 id="ch-10-title" class="ch-title"><span class="sr">第十节 </span>工资（Salary）录入</h2>
+<p class="ch-sum">工资、公积金供款与各类津贴的专用录入表单。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>首页 "+" 悬浮按钮 → <strong>Salary</strong>，专用表单支持：</p>
+<ul>
+<li>选择成员；</li>
+<li><strong>Scheme（公积金制度）</strong>：None（普通工资）/ EPF（马来西亚公积金）/ CPF（新加坡公积金），选择后会出现对应的雇员（EE）/雇主（ER）供款字段；</li>
+<li>分类、收款账户；</li>
+<li>额外津贴字段：🏠 房屋津贴、📱 手机报销、✈️ 海外津贴、🕒 补发工资（Backpay），均可选填，默认为 0。</li>
+</ul>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c9"><span class="nav-l">上一节</span><span class="nav-t">九　分类、标签与模板管理</span></a><a class="nav-card next" href="#/c11"><span class="nav-l">下一节</span><span class="nav-t">十一　预算管理</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="11" id="ch-11" hidden aria-labelledby="ch-11-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十一</span>
+<div class="ch-head-t">
+<h2 id="ch-11-title" class="ch-title"><span class="sr">第十一节 </span>预算管理（Budget）</h2>
+<p class="ch-sum">月度/年度预算、分类预算，以及首页预算进度条的来源。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>侧边栏 → <strong>Budget</strong>（🎯 图标）。</p>
+<ul>
+<li>顶部固定显示 <strong>"本月 · 本年"</strong> 速览条，无论当前在哪个视图都同时可见，点击任一侧可直接跳到对应视口；</li>
+<li><strong>Monthly / Yearly</strong> 切换开关：整页内容（总预算、分类预算、进度条、每 X 平均数据等）在"某个具体月份"与"某个具体年份"两种视角间整体切换；</li>
+<li>首次使用点 <strong>Set Up Budget</strong> 设置总预算金额，可选开启"结转上月/上年结余"，金额可编辑；</li>
+<li><strong>Copy from Last Month</strong>：一键复制上一期的预算设置，无需重新输入；</li>
+<li><strong>分类预算（Category Budgets）</strong>：从现有支出分类中挑选，各自独立进度条，超支时变红；退款按分类净额计算，与 Spending Breakdown 报表口径一致；</li>
+<li><strong>月度与年度的联动</strong>：某个月如果没有单独设置预算，但当年设有年度预算，该月会按"（本年度预算 − 已完成月份的实际支出）÷ 剩余月数"实时自动衍生出一个预算额度，无需手动设置，且随实际交易变动即时重新计算；点击编辑铅笔可以把当前衍生额度直接保存为该月的手动预算（或改一个数再保存）；</li>
+<li>编辑总预算弹窗底部有 <strong>"Delete This Budget"</strong> 按钮（仅当该期间已设置过预算时出现），删除前会二次确认，只影响预算设置本身，交易记录不受影响。</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title">首页只会看到一条进度条</div>
+<p>Dashboard 的 Budget 小组件永远只显示一条进度条：如果当月有自己设置的预算就显示它；如果没有但当年有年度预算，就显示自动衍生出来的额度，并在下方标注"🔄 来自 XXXX 年度预算"，避免同时出现两条进度条造成混淆。</p>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c10"><span class="nav-l">上一节</span><span class="nav-t">十　工资录入</span></a><a class="nav-card next" href="#/c12"><span class="nav-l">下一节</span><span class="nav-t">十二　设置总览</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="12" id="ch-12" hidden aria-labelledby="ch-12-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十二</span>
+<div class="ch-head-t">
+<h2 id="ch-12-title" class="ch-title"><span class="sr">第十二节 </span>设置（Setting）总览</h2>
+<p class="ch-sum">设置页各图标入口：主题、货币、成员、分类、备份、自动锁定等。</p>
+<div class="ch-meta"><span>约 2 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>侧边栏底部 <strong>Setting</strong> 打开后，左侧是一条<strong>常驻图标导轨</strong>（不是老版本的弹出面板/逐层进入），点任意图标直接在右侧切换对应的详情面板，无需先"返回"到某个中间页；当前选中的图标会带高亮背景+左侧色条，方便确认自己在哪一页；导轨与详情面板可各自独立滚动，互不影响。图标导轨包含：</p>
+<div class="table-wrap t2"><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎨 <strong>Background Theme</strong></td>
+<td>切换应用配色主题：浅色/深色/"跟随系统日夜模式"、暗夜描边、Slate、尊爵黑金（第三套深色主题）、蜡笔小新手绘风、Liquid Glass 液态玻璃等，部分主题可单独开关手写字体</td>
+</tr>
+<tr>
+<td>🎴 <strong>Net Worth Card</strong>（原"Net Worth Card Style"与"Companion"已合并为一页）</td>
+<td>分两个卡片区块：一是首页净值卡片的渐变配色（独立于整体主题）；二是「吉祥物」设置，见<a class="xref" href="#/c16">第十六节</a></td>
+</tr>
+<tr>
+<td>💱 <strong>Currency Setting</strong></td>
+<td>主基准货币、获取实时汇率、各币种汇率手动录入（原是弹窗，现已改为独立页面，布局与其他设置页一致）</td>
+</tr>
+<tr>
+<td>Dashboard Widgets</td>
+<td>可自定义首页各区块（Accounts、Recent Transactions、Budget、Monthly Trend 等）的显示顺序、显示条数、账户/类型筛选，各区块均可单独"隐藏整个小组件"</td>
+</tr>
+<tr>
+<td>👪 <strong>Manage Members</strong></td>
+<td>见<a class="xref" href="#/c6">第六节</a></td>
+</tr>
+<tr>
+<td>🏷️ <strong>Manage Categories</strong>（含 Default Payment/Receive Account、Default Income/Expense Category）</td>
+<td>见<a class="xref" href="#/c9">第九节</a></td>
+</tr>
+<tr>
+<td>🔖 <strong>Manage Tags</strong></td>
+<td>见<a class="xref" href="#/c9">第九节</a></td>
+</tr>
+<tr>
+<td>📋 Templates</td>
+<td>见<a class="xref" href="#/c9">第九节</a></td>
+</tr>
+<tr>
+<td>💾 <strong>Backup &amp; Restore</strong></td>
+<td>见下一节</td>
+</tr>
+<tr>
+<td>⏱️ <strong>Auto-Lock</strong></td>
+<td>设置无操作多久后自动锁定 App（Never / 1 / 5 / 15 / 30 分钟，默认 15 分钟）</td>
+</tr>
+<tr>
+<td>🗄️ <strong>App Local Database</strong></td>
+<td>查看本地数据库信息，含<a class="xref" href="#/c15">第十五节</a>的 🔍 Review Attachments</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">两个入口挪了地方</div>
+<p><strong>🔑 Change Passcode</strong> 现在在 Backup &amp; Restore 页面里；<strong>🔒 Lock App Now</strong> 用首页顶部的锁形图标，<strong>🗑️ Reset App Data</strong> 用解锁页的 "Forgot passcode?" 链接——两者都不再出现在 Setting 的图标导轨上，操作方式本身没有变化。</p>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c11"><span class="nav-l">上一节</span><span class="nav-t">十一　预算管理</span></a><a class="nav-card next" href="#/c13"><span class="nav-l">下一节</span><span class="nav-t">十三　备份与恢复数据</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="13" id="ch-13" hidden aria-labelledby="ch-13-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十三</span>
+<div class="ch-head-t">
+<h2 id="ch-13-title" class="ch-title"><span class="sr">第十三节 </span>备份与恢复数据</h2>
+<p class="ch-sum">加密导出与导入备份，换设备或换网址前必读。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>侧边栏 → <strong>Setting → Backup &amp; Restore</strong>：</p>
+<ul>
+<li><strong>💾 Export JSON</strong>：导出全部数据为一个 JSON 文件，默认<strong>加密</strong>（用当前密码 + 随机盐派生独立密钥，换设备后用同一密码即可恢复）；也可关闭"🔐 Encrypt this backup export"开关导出明文备份（会有二次确认提示"明文备份不含密码保护，请妥善保管"）；</li>
+<li><strong>📥 Import JSON</strong>：导入之前导出的备份文件；导入前会二次确认避免误覆盖当前数据；App 会自动识别文件是否加密，优先用当前会话密码静默解密，失败则弹出密码输入框；</li>
+<li><strong>🔑 Change Passcode</strong>：修改密码，同时用新密码重新派生加密密钥。</li>
+</ul>
+<div class="callout callout-warning">
+<div class="callout-title">换设备/换网址注意</div>
+<p>手机本地 <code>file://</code> 打开的版本和部署到网上（<code>https://...</code>）的版本，<strong>是两个完全独立的数据库</strong>，不会自动同步。换设备或换访问方式前，请先在旧的一边导出备份，再到新的一边导入。</p>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c12"><span class="nav-l">上一节</span><span class="nav-t">十二　设置总览</span></a><a class="nav-card next" href="#/c14"><span class="nav-l">下一节</span><span class="nav-t">十四　物品库存管理</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="14" id="ch-14" hidden aria-labelledby="ch-14-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十四</span>
+<div class="ch-head-t">
+<h2 id="ch-14-title" class="ch-title"><span class="sr">第十四节 </span>物品库存管理（Inventory）</h2>
+<p class="ch-sum">登记贵重物品与保修期限，并导出库存清单。</p>
+<div class="ch-meta"><span>约 2 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>用来登记贵重物品（电器、家电等）的购买信息与保修期限，与账本记账联动。</p>
+<p><strong>如何加入库存：</strong> 记一笔<strong>新建</strong>支出时（编辑已有支出不提供此选项），Notes 字段下方有一个 <strong>"📦 加入库存"</strong> 开关。打开后：</p>
+<ul>
+<li><strong>自动带入</strong>：供应商（来自 Description）、物品名称（来自 Notes，所以勾选前请把 Notes 填好——留空会提示先填）、购买日期/价格（来自这笔支出本身）、付款账户、附件；</li>
+<li><strong>手动填写</strong>（均选填）：Serial Number、Model，以及可增删的多条 <strong>Warranty（保修）</strong>——每条记录保修范围/名称、保修月数、起始日，App 会自动算出到期日。</li>
+</ul>
+<p><strong>Inventory 页面</strong>（侧边栏新入口）：</p>
+<ul>
+<li>顶部 <strong>All / Active / Disposed / Lost</strong> 状态筛选，卡片列表沿用与日历日详情卡相同的"收据"视觉风格（锯齿边、虚线分割），底部按当前筛选汇总一行手写体"Total Value"总计（自动换算为基准货币）；</li>
+<li>每张卡片显示供应商 <code>[方括号]</code>、物品名称、Serial Number/Model（同一行以 · 分隔）、来源账户（🏠 图标）、备注、附件数量；点击 "📎 N attachment(s)" 可直接打开图片/PDF 查看器（多个附件先弹出一个小选择列表）；</li>
+<li>保修状态一目了然：临期会有进度条变红提醒，<strong>已过期</strong>的直接显示红色徽章"⏱️ Warranty expired Nd ago"，不再用容易看错的满格进度条；</li>
+<li>页面顶部有虚线到期提醒条，首页仪表盘也有对应的"⚠️ Warranty Reminders"小组件，点击都能直达该项目；</li>
+<li>点开任意一张卡片可编辑全部字段（含来源账户，可自由改选，不锁定原交易账户）、增删保修记录、增删附件、切换状态（Active/Disposed/Lost）或整条删除；</li>
+<li>库存记录本身也是加密存储的一张独立数据表，备份导出/导入/清空时会一并处理，不用担心漏备份。</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title">导出库存清单</div>
+<p>Inventory 页面标题旁有 <strong>📤 导出 CSV</strong> 按钮，导出范围跟随当前的 All/Active/Disposed/Lost 筛选，字段包含名称、供应商、型号、序列号、购买日期与价格、币种、状态、付款账户、备注、保修信息、附件数量；当前筛选下没有记录时会提示，不会导出空文件。</p>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">已知限制</div>
+<p>库存记录与产生它的那笔支出交易之间没有互相跳转的链接——创建那一刻该带的信息（供应商/日期/金额/附件）都已经复制过去了，只是事后无法从库存项直接点回原始那笔交易。</p>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c13"><span class="nav-l">上一节</span><span class="nav-t">十三　备份与恢复数据</span></a><a class="nav-card next" href="#/c15"><span class="nav-l">下一节</span><span class="nav-t">十五　附件管理与打印导出</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="15" id="ch-15" hidden aria-labelledby="ch-15-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十五</span>
+<div class="ch-head-t">
+<h2 id="ch-15-title" class="ch-title"><span class="sr">第十五节 </span>附件管理与打印导出</h2>
+<p class="ch-sum">附件查看与清理、CSV 导出和打印。</p>
+<div class="ch-meta"><span>约 2 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<ul>
+<li>记账时添加的<strong>照片/PDF 附件</strong>可以在交易详情里点开查看，PDF 支持内置阅读器翻页浏览（不依赖外部服务，离线也能看）；</li>
+<li>照片附件会先经过压缩再存储（最长边压到 1280px、75% 质量的 JPEG），同时生成一张 96px 的小缩略图专供列表预览用；PDF 附件则原样存储，不做压缩，超过 8MB 时会有大小提示；</li>
+<li>侧边栏 → <strong>Setting → 🗄️ App Local Database → 🔍 Review Attachments</strong>：按时间<strong>从旧到新</strong>列出所有带附件的交易，顶部可按"全部 / 超过 6 / 12 / 24 个月"筛选（默认 12 个月），每行显示缩略图、描述、日期、分类、账户，多附件交易会带"×N"角标，列表上方有一行"X 笔交易 · Y 个附件"的规模提示；点任意一行可打开该交易的 Quick View 查看/下载原附件；</li>
+<li>在附件详情/预览弹窗里（无论是从交易的 📎 角标、Quick View，还是 Review Attachments 列表进入）都能看到 <strong>Download / 🗑️ Delete / Close</strong> 三个操作；点 Delete 会先二次确认，确认后只删除这一个附件，交易本身的金额、分类、备注等完全不受影响，删完该交易的 📎 角标也会相应消失；</li>
+<li>Review Attachments 列表中，若某笔交易里最大的一个附件体积达到 <strong>1MB 及以上</strong>，行末会出现一个琥珀色的体积徽章（如"3.2 MB"）提醒你留意——因为照片压缩后通常远小于 1MB，能达到这个体积的多半是带内嵌大图的 PDF；</li>
+<li><strong>📤 导出 CSV</strong>：账本（Ledger）页面标题旁、以及侧边栏 Total Bill Summary 报表页面标题旁都有一个导出按钮，可另存为 CSV 文件（UTF-8 BOM，Excel 打开中文/特殊字符不乱码）。账本页导出范围跟随当前查看的视图——"Portfolio General Log"（全部账户）会导出全部交易，只看某个账户时则只导出该账户；金额带正负号方便直接拖进 Excel 求和；</li>
+<li>App 支持将部分报表/记录导出打印（打印时的颜色、排版已做过适配）。</li>
+</ul>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c14"><span class="nav-l">上一节</span><span class="nav-t">十四　物品库存管理</span></a><a class="nav-card next" href="#/c16"><span class="nav-l">下一节</span><span class="nav-t">十六　吉祥物与净值卡装饰</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="16" id="ch-16" hidden aria-labelledby="ch-16-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十六</span>
+<div class="ch-head-t">
+<h2 id="ch-16-title" class="ch-title"><span class="sr">第十六节 </span>吉祥物与净值卡装饰（Companion）</h2>
+<p class="ch-sum">用照片库给首页和月度趋势图配上小吉祥物。</p>
+<div class="ch-meta"><span>约 1 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>Setting → 🎴 <strong>Net Worth Card</strong> 页面里的「吉祥物」区块，可以给首页装点一个小图标：</p>
+<ul>
+<li>点击后打开一个 <strong>"My Photos"</strong> 照片库，最多可保存 <strong>20 张</strong>自定义照片——每次上传新增一张而不是替换上一张；上传时会自动居中裁剪成正方形（PNG 保存，保留透明度），点已保存的照片即可随时切换回去，也可以点角落的 "×" 单独删除某一张（需二次确认）；选 <strong>"None"</strong> 则不显示任何图标（早期版本内置过十二生肖图标，现已全部移除，只保留照片库；如果账号里还留着旧的生肖选择，会自动回落为 "None"）；</li>
+<li>显示位置：首页净值（Portfolio Net Worth）数字旁的空白处，点一下图标可直接跳转回这个设置页；</li>
+<li><strong>Monthly Trend Mascot</strong> 是一个独立的第二个吉祥物位置，显示在"Monthly Trend"标题旁，默认 <strong>"🔗 Match Companion"</strong>（跟随上面选的图标），也可以单独选另一张照片或关闭；两个位置共用同一个 20 张的照片库，上传入口只在 Net Worth Card 一侧，但两边都能选用库里任意一张、都能删除；</li>
+<li>净值卡片本身始终是彩色渐变底（配合"Net Worth Card"的配色设置），所以吉祥物图标固定用半透明白色线条风格，不论卡片配色深浅或应用本身日夜模式如何切换，都能正常看清。</li>
+</ul>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c15"><span class="nav-l">上一节</span><span class="nav-t">十五　附件管理与打印导出</span></a><a class="nav-card next" href="#/c17"><span class="nav-l">下一节</span><span class="nav-t">十七　计划付款与周期扣款</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="17" id="ch-17" hidden aria-labelledby="ch-17-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十七</span>
+<div class="ch-head-t">
+<h2 id="ch-17-title" class="ch-title"><span class="sr">第十七节 </span>计划付款与周期扣款（Planned Payments）</h2>
+<p class="ch-sum">把还没到付款日的账单存成计划，并设置周期重复。</p>
+<div class="ch-meta"><span>约 2 分钟读完</span></div>
+</div>
+</header>
+<div class="prose">
+<p>用于记录<strong>还没到付款日、暂时不想计入余额</strong>的账单（房租、水电、订阅等），或者需要按周期反复提醒的付款。</p>
+<p><strong>如何创建：</strong> 打开一笔新建 Income/Expense（支持拍照附件等所有正常字段），填好后不点 "Commit Entry"，改点旁边的 <strong>"🕒 Save as Planned"</strong>——这笔记录会被单独保存，不会影响任何账户余额。<strong>Split（拆分）交易暂不支持</strong>存为计划，开着 Split 时会有提示，需要先关掉 Split 才能保存。</p>
+<p><strong>查看与操作：</strong></p>
+<ul>
+<li>Dashboard 有一个 <strong>Planned Payments</strong> 小组件，只显示 <strong>3 天内到期或已逾期</strong>的项目（暂停中的不显示），标题可点击跳转到完整列表；</li>
+<li>侧边栏 → <strong>🕒 Planned Payments</strong> 是完整列表页，不论到期日多远、包括暂停中的项目都会显示，但<strong>没有单独的"+"入口</strong>——新记录只能从收支表单的 "Save as Planned" 创建；</li>
+<li>点开任意一条会弹出操作菜单：<strong>✅ Mark as Paid</strong>（标记已付）/ <strong>🗑 Delete</strong>（删除）。</li>
+</ul>
+<p><strong>🔁 Repeat（周期重复）：</strong></p>
+<ul>
+<li>保存计划时勾选 "🔁 Repeat"，选择"每 N 周/月/年"重复一次（默认每 1 个月）；</li>
+<li>周期性的一条记录只会保存<strong>一份</strong>（代表"下一次到期"），不会预先生成一整串未来记录；</li>
+<li><strong>Mark as Paid</strong> 时表单会像平常一样预填好所有字段供你确认/修改后 Commit——确认后这条计划会自动前进到下一个到期日，而不是消失，之后 desc/金额/币种/账户/分类/备注 也会按这次实际提交的值同步更新到下一期（<strong>附件除外</strong>，每期从空白开始，避免带着上一次的旧收据）；也就是说房租涨价时，在确认付款时顺手改一下金额，下个月的提醒就直接是新数字；</li>
+<li>月末日期（如 1 月 31 日每月重复）遇到没有对应日子的月份（2 月）会自动钳制到当月最后一天，并记住"原始锚点日"，下个有 31 号的月份会自动回到 31 号，不会因为钳制过一次就永久漂移到别的日子；</li>
+<li><strong>Delete</strong> 对周期性记录会终止整个系列（不是只删这一次），确认提示会明确说明这一点；</li>
+<li><strong>⏸ Pause / ▶️ Resume</strong>：只对周期性记录出现，暂停后排到列表最下面、变灰显示"⏸ Paused"，不再计入 Dashboard 的到期提醒；恢复时会自动把到期日快进到今天之后最近的一次，不会一恢复就显示"逾期很多天"；</li>
+<li><strong>Edit Series（编辑系列）</strong>：可以修改重复周期（如从"每月"改成"每 3 个月"）、手动改到期日（手动改过之后会重新设定锚点日）。</li>
+</ul>
+<p>一次性（非周期）的计划只有"标记已付/删除"两个操作，Pause 与 Edit Series 只在周期性记录上出现。</p>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c16"><span class="nav-l">上一节</span><span class="nav-t">十六　吉祥物与净值卡装饰</span></a><a class="nav-card next" href="#/c18"><span class="nav-l">下一节</span><span class="nav-t">十八　提醒事项</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="18" id="ch-18" hidden aria-labelledby="ch-18-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十八</span>
+<div class="ch-head-t">
+<h2 id="ch-18-title" class="ch-title"><span class="sr">第十八节 </span>提醒事项（Reminders）</h2>
+<p class="ch-sum">登记护照、驾照、保险等证件的续期日期，到期前在首页提醒。</p>
+<div class="ch-meta"><span>约 3 分钟读完</span><span>5 个小节</span></div>
+</div>
+</header>
+<div class="prose">
+<p>用来登记护照、驾照、PR 续期、信用卡有效期、保险到期这类"每隔一段时间要更新一次"的日期，快到期时在首页提醒你。所有提醒共用<strong>一份列表</strong>，不区分家庭成员。</p>
+<p>入口：侧边栏 <strong>🔔 Reminders</strong>（和 Inventory、Planned Payments 同一层）。</p>
+<h3 id="c18-s1">新增一条提醒</h3>
+<p>Reminders 页面右下角点 <strong>"+"</strong>，填写：</p>
+<div class="table-wrap t2"><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>必填，例如 Passport、Driving License、PR Renewal</td>
+</tr>
+<tr>
+<td>Category</td>
+<td>可选，例如 Travel Document</td>
+</tr>
+<tr>
+<td>Issue Date</td>
+<td>可选，签发日期</td>
+</tr>
+<tr>
+<td>Due / Expiry Date</td>
+<td>必填，到期日</td>
+</tr>
+<tr>
+<td>Remind Me (Days Before Due)</td>
+<td>到期前多少天开始在首页提醒你，<strong>每条各自设置</strong>，默认 90 天</td>
+</tr>
+<tr>
+<td>This renews / repeats</td>
+<td>需要定期续期的勾选；勾选后出现 <strong>Renews Every (Months)</strong>，默认 12 个月。参考值：护照约 60–120 个月、驾照约 72–120、信用卡约 36、保险约 12</td>
+</tr>
+<tr>
+<td>Notes</td>
+<td>可选，例如证件号码</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="c18-s2">首页小组件与完整列表</h3>
+<ul>
+<li><strong>首页 🔔 Reminders 小组件</strong>：只显示已经进入<strong>自己提前提醒天数</strong>（或已逾期）的提醒，按到期日由早到晚排列，最紧迫的排在最前；已归档的不会出现；没有任何一条符合时整个小组件隐藏。每行右侧显示到期日和剩余时间（"Nd left" / "Due today" / "Overdue Nd"，逾期为红色）。点标题进入完整列表。</li>
+<li><strong>完整列表页</strong>：顶部有 <strong>Active / Archived</strong> 两个标签。Active 显示所有未归档的提醒，不论离到期日多远；Archived 显示已处理完的一次性提醒（见下文）。</li>
+</ul>
+<h3 id="c18-s3">点一条提醒能做什么</h3>
+<p>点列表里的任意一行，会弹出操作菜单：</p>
+<div class="table-wrap t2"><table>
+<thead>
+<tr>
+<th>按钮</th>
+<th>出现条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ <strong>Mark as Renewed</strong></td>
+<td>勾选了 "This renews / repeats" 的提醒</td>
+</tr>
+<tr>
+<td>📦 <strong>Archive</strong></td>
+<td>一次性提醒（没有勾选重复）</td>
+</tr>
+<tr>
+<td>↩️ <strong>Restore</strong></td>
+<td>已归档的提醒</td>
+</tr>
+<tr>
+<td>✏️ <strong>Edit</strong> / 🗑 <strong>Delete</strong></td>
+<td>所有提醒；删除前会二次确认，且无法恢复</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="c18-s4">续期流程（Mark as Renewed）</h3>
+<p>点 ✅ Mark as Renewed 后会弹出确认页，<strong>不会直接静默改日期</strong>：</p>
+<ol>
+<li>页面显示 <strong>Old due date</strong>（旧到期日）；</li>
+<li><strong>Renewal Date</strong> 默认是今天，可改；</li>
+<li><strong>New Due Date</strong> 已预填为"续期当天 + 每隔 N 个月"，确认无误或手动改好后点 <strong>Save</strong>。</li>
+</ol>
+<p>新到期日是从<strong>续期当天</strong>往后算，而不是从旧到期日往后算——所以就算拖了几天才去办，下一轮也会按实际办理日重新计时。保存后该提醒的 Issue Date 会更新为续期日，到期日更新为新到期日，并留下一条续期记录（旧到期日 → 新到期日 → 续期日）。</p>
+<h3 id="c18-s5">一次性提醒</h3>
+<p>不勾选 "This renews / repeats" 的提醒（如签证、活动报名）没有 Renewed 按钮：事情办完后点 <strong>📦 Archive</strong>，它会移到 Archived 标签；需要时可以 <strong>Restore</strong> 恢复。</p>
+<div class="callout callout-warning">
+<div class="callout-title">只有打开 App 时才会看到提醒</div>
+<p>App 完全离线、没有后台服务器，所以"提醒"只体现为你打开 App 时首页出现的小组件，<strong>没法在 App 关闭时向手机推送通知</strong>。建议把提前天数设得宽裕一些（默认 90 天），并养成定期打开 App 的习惯。</p>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">数据与备份</div>
+<p>提醒数据和账本其他数据一样，加密保存在本机，并包含在 Setting → Backup &amp; Restore 的导出/导入里。续期记录也一并保存在数据中，不过目前没有单独查看续期历史的界面。</p>
+</div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c17"><span class="nav-l">上一节</span><span class="nav-t">十七　计划付款与周期扣款</span></a><a class="nav-card next" href="#/c19"><span class="nav-l">下一节</span><span class="nav-t">十九　常见操作速查</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="19" id="ch-19" hidden aria-labelledby="ch-19-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">十九</span>
+<div class="ch-head-t">
+<h2 id="ch-19-title" class="ch-title"><span class="sr">第十九节 </span>常见操作速查</h2>
+<p class="ch-sum">“我想做某件事，该去哪里？”——一张速查表。</p>
+<div class="ch-meta"><span>速查内容，可搜索、可筛选</span></div>
+</div>
+</header>
+<div class="prose">
+<div class="table-wrap t2" data-filter="quick"><table>
+<thead>
+<tr>
+<th>我想做的事</th>
+<th>去哪里操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>记一笔日常收支</td>
+<td>首页右下角 "+" → 选 Income/Expense，可直接在顶部 ✨ Quick Add 打一句话自动填表单</td>
+</tr>
+<tr>
+<td>记一笔以后才要付的账单/订阅</td>
+<td>新建 Income/Expense 填好后点 "🕒 Save as Planned"（需要重复则先勾 "🔁 Repeat"），详见<a class="xref" href="#/c17">第十七节</a></td>
+</tr>
+<tr>
+<td>记一笔转账（含换汇）</td>
+<td>首页 "+" → Transfer，需要时开启 Currency Conversion</td>
+</tr>
+<tr>
+<td>给同一趟旅行/同一次报销的交易打统一标记</td>
+<td>记账表单底部 "Tags" 字段，或先到 Setting → Manage Tags 建好标签</td>
+</tr>
+<tr>
+<td>查看某趟旅行/某次报销总共花了多少</td>
+<td>侧边栏 Reports → Spending by Tag，或点交易旁的 🔖 标签徽章</td>
+</tr>
+<tr>
+<td>记一笔"待报销"的支出并跟踪它</td>
+<td>首页/账户页 "+" → 🧾 <strong>Lend / Claim</strong>（转入 Claims Receivable 账户并自动挂 Pending Claim 标签）→ 首页 Tag Reminders 会提醒 → 钱到账后点交易旁 🔖 标签徽章 → 💰 Reimbursement</td>
+</tr>
+<tr>
+<td>一次汇款结清好几笔待报销支出</td>
+<td>侧边栏 Reports → Spending by Tag → Pending Claim → <strong>🧾 Settle Multiple Bills as One Claim</strong></td>
+</tr>
+<tr>
+<td>查看本月/本年预算还剩多少</td>
+<td>侧边栏 Budget，或首页 🎯 Budget 小组件</td>
+</tr>
+<tr>
+<td>查看历年总收支和结余</td>
+<td>侧边栏 Reports → Total Bill Summary</td>
+</tr>
+<tr>
+<td>清理占空间的老照片/PDF 附件</td>
+<td>Setting → App Local Database → 🔍 Review Attachments，找到大附件后在详情弹窗里 Delete</td>
+</tr>
+<tr>
+<td>把账本/账单汇总导出成 Excel 能打开的文件</td>
+<td>账本页或 Total Bill Summary 页标题旁的 📤 导出 CSV 按钮</td>
+</tr>
+<tr>
+<td>登记一件新买的电器/贵重物品并跟踪保修期</td>
+<td>记一笔新支出 → 填好 Notes → 打开 "📦 加入库存" 开关 → 填保修信息 → 侧边栏 Inventory 查看</td>
+</tr>
+<tr>
+<td>记录买入/卖出实物黄金（金条、金饰、银行黄金账户）</td>
+<td>建 Unit Trust 账户（Sub-Group 选 Gold）→ Add Fund → Category 选 🪙 Gold → + Transaction 记 Buy/Sell，详见<a class="xref" href="#/c8">第八节</a></td>
+</tr>
+<tr>
+<td>更新黄金今日价格</td>
+<td>侧边栏 Daily NAV Update → 🪙 Gold 标签 → 填每克回购价 → Update All Prices</td>
+</tr>
+<tr>
+<td>记录基金买入 / 卖出 / 派息</td>
+<td>进入基金账户 → 该基金 + Transaction → 选 Buy / Sell / Dividend，详见<a class="xref" href="#/c8">第八节</a></td>
+</tr>
+<tr>
+<td>更新基金今日净值</td>
+<td>侧边栏 Daily NAV Update → 📊 Unit Trust 标签 → 填净值 → Update All Prices</td>
+</tr>
+<tr>
+<td>看全部基金的总盈亏，以及"净投入"多少</td>
+<td>侧边栏 Reports → Unit Trust Portfolio</td>
+</tr>
+<tr>
+<td>全部赎回（清仓）一只基金</td>
+<td>该基金 + Transaction → Sell → Units 填全部份额、Total Amount 填实际到手金额 → 选收款账户；不要删除基金，详见<a class="xref" href="#/c8">第八节</a></td>
+</tr>
+<tr>
+<td>找回已清仓的基金</td>
+<td>Fund Holdings 或 Fund Detail 表格底部 "N closed funds" 那一行，点一下展开</td>
+</tr>
+<tr>
+<td>登记护照/驾照/保险等需要定期续期的日期</td>
+<td>侧边栏 Reminders → 右下角 "+" → 填到期日和提前提醒天数，需要循环的勾选 "This renews / repeats" 并填每隔几个月，详见<a class="xref" href="#/c18">第十八节</a></td>
+</tr>
+<tr>
+<td>证件办完续期后更新到期日</td>
+<td>侧边栏 Reminders → 点该条 → ✅ Mark as Renewed → 确认新到期日 → Save</td>
+</tr>
+<tr>
+<td>查看某个人的资产</td>
+<td>侧边栏 Members → 点该成员</td>
+</tr>
+<tr>
+<td>查看这个月花了多少 / 花在哪</td>
+<td>侧边栏 Spending Breakdown</td>
+</tr>
+<tr>
+<td>新建一个账户（房子、信用卡、基金…）</td>
+<td>侧边栏 Financial Accounts → 右上角新增</td>
+</tr>
+<tr>
+<td>换手机、想把账本搬过去</td>
+<td>Setting → Backup &amp; Restore → Export JSON，到新设备 Import JSON</td>
+</tr>
+<tr>
+<td>别人在旁边，想遮住金额</td>
+<td>首页顶部 🙈 Privacy Mode 图标</td>
+</tr>
+<tr>
+<td>忘记锁屏密码了</td>
+<td>解锁页 "Forgot passcode? Reset app data"（⚠️ 会清空所有数据，无法找回）</td>
+</tr>
+<tr>
+<td>开启指纹/面容解锁</td>
+<td>Setting → Backup &amp; Restore 页里的 🫆 Biometric 开关（需 HTTPS 环境 + 设备支持）</td>
+</tr>
+<tr>
+<td>想让 App 自动锁定</td>
+<td>Setting → Auto-Lock</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c18"><span class="nav-l">上一节</span><span class="nav-t">十八　提醒事项</span></a><a class="nav-card next" href="#/c20"><span class="nav-l">下一节</span><span class="nav-t">二十　版本更新记录</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+<section class="chapter" data-n="20" id="ch-20" hidden aria-labelledby="ch-20-title">
+<div class="reader">
+<header class="ch-head">
+<span class="seal seal-lg" aria-hidden="true">二十</span>
+<div class="ch-head-t">
+<h2 id="ch-20-title" class="ch-title"><span class="sr">第二十节 </span>版本更新记录（v1–v423，完整版）</h2>
+<p class="ch-sum">从 v1 到 v423 的完整变更记录，可按版本段筛选。</p>
+<div class="ch-meta"><span>速查内容，可搜索、可筛选</span></div>
+</div>
+</header>
+<div class="prose">
+<div class="table-wrap t2" data-filter="changelog"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>变更摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1</td>
+<td>首次发布：部署到 GitHub Pages 的完整步骤（含离线安装说明）</td>
+</tr>
+<tr>
+<td>v2</td>
+<td>新增照片附件功能</td>
+</tr>
+<tr>
+<td>v9</td>
+<td>新增 Multi-Currency（多币种）与 Fixed Deposit（定期存款）账户类型</td>
+</tr>
+<tr>
+<td>v10</td>
+<td>新增应用密码锁：PBKDF2 + AES-GCM 派生密钥，IndexedDB 全表加密；导出备份支持加密开关</td>
+</tr>
+<tr>
+<td>v11</td>
+<td>新增指纹/人脸快捷解锁（WebAuthn，需 HTTPS）</td>
+</tr>
+<tr>
+<td>v12</td>
+<td>安全加固：79 处内联事件改为委托事件 + 严格 CSP；修复分类/账户/描述等自由文本字段未转义导致的注入漏洞</td>
+</tr>
+<tr>
+<td>v13</td>
+<td>解锁页新增小号版本号徽章，方便确认当前运行版本</td>
+</tr>
+<tr>
+<td>v14</td>
+<td>生物识别改用 PRF 方案，指纹/人脸验证真正参与密钥派生（不再只是 UI 层开关）</td>
+</tr>
+<tr>
+<td>v15</td>
+<td>修复 FD 提醒条、账本行、分类标题、附件属性等 4 处遗漏的 HTML 转义漏洞</td>
+</tr>
+<tr>
+<td>v16–v17</td>
+<td>新增自动锁定与数字键盘；一度加入密码错误锁定倒计时机制，后应要求移除</td>
+</tr>
+<tr>
+<td>v18</td>
+<td>修复数字键盘误弹出手机系统输入法的问题</td>
+</tr>
+<tr>
+<td>v19</td>
+<td>新增 18 个默认收支分类及对应图标，自动预置且不影响已改名/删除的分类</td>
+</tr>
+<tr>
+<td>v20–v21</td>
+<td>分类改为字母排序；"Beting"更正为"Betting"；移除遗留的"修复旧 FD"按钮；年份筛选范围调整</td>
+</tr>
+<tr>
+<td>v22</td>
+<td>分类下拉与年份筛选改为依据实际交易数据动态生成，不再是写死的列表</td>
+</tr>
+<tr>
+<td>v23</td>
+<td>新增默认收支分类设置、Others 改名为 Other Income/Expenses、Opening Balance 位置调整、Net Savings Statement 独立筛选器等 8 项改动</td>
+</tr>
+<tr>
+<td>v24</td>
+<td>修复"金额被重复显示到错误账户""关闭弹窗后返回跳出整个页面"等 bug，新增默认付款账户</td>
+</tr>
+<tr>
+<td>v25</td>
+<td>修复账户 Activity 页被 Dashboard 的月/年筛选器意外过滤交易的问题</td>
+</tr>
+<tr>
+<td>v26</td>
+<td>修复转账被误标记随机分类、返回后滚动位置丢失到顶部的问题</td>
+</tr>
+<tr>
+<td>v27</td>
+<td>简化账本行显示内容，编辑弹窗内新增"删除交易"按钮</td>
+</tr>
+<tr>
+<td>v28</td>
+<td>每笔交易行新增显示所属账户（转账显示双向账户）</td>
+</tr>
+<tr>
+<td>v29</td>
+<td>首次引入侧边栏抽屉导航</td>
+</tr>
+<tr>
+<td>v30</td>
+<td>账户、分类、备份还原从弹窗改为独立页面</td>
+</tr>
+<tr>
+<td>v31</td>
+<td>侧边栏改为响应式（平板/桌面常驻展开）；Dashboard 精简；新增"按持有币种净值"板块</td>
+</tr>
+<tr>
+<td>v32</td>
+<td>花费/收入分类报表独立成侧边栏页面；新增手动锁定交易汇率的功能</td>
+</tr>
+<tr>
+<td>v33</td>
+<td>转账支持手动录入汇率/实际到账金额；账户 Activity 页新增年份导航及结转余额（B/F、C/F）</td>
+</tr>
+<tr>
+<td>v34</td>
+<td>修复解锁页 Enter 键无效；账户 Activity 页新增快速记账"+"；新增账户余额横幅；简化转账换算表单</td>
+</tr>
+<tr>
+<td>v35</td>
+<td>新增家庭成员系统：成员管理、专属页面、联名账户聚合、按成员筛选报表</td>
+</tr>
+<tr>
+<td>v36</td>
+<td>新增 EPF 收入分类、Recent Transactions 小组件、赤字红色括号显示、成员彩色标签、账户分组</td>
+</tr>
+<tr>
+<td>v37</td>
+<td>修复 17 处遗漏的 HTML 转义（币种/ID 字段）</td>
+</tr>
+<tr>
+<td>v38</td>
+<td>修复因 Cloudflare/manifest 重定向导致离线缓存失效的问题（不影响 GitHub Pages 部署）</td>
+</tr>
+<tr>
+<td>v39</td>
+<td>新增常用外币列表、账户分组子分组与小计、单位信托基金（Unit Trust）账户类型、基金持仓报表等 9 项大更新</td>
+</tr>
+<tr>
+<td>v40</td>
+<td>修复基金相关弹窗关闭异常导致应用意外退出/重复提交的问题</td>
+</tr>
+<tr>
+<td>v41</td>
+<td>基金交易改为可编辑而非只能删除重记；修复已删除基金交易在持仓表消失的问题；统一 Owner 选择器样式</td>
+</tr>
+<tr>
+<td>v42</td>
+<td>金额/单价支持双向自动互算；修正"已投入成本"计算（股息再投资/供款不再计入本金）</td>
+</tr>
+<tr>
+<td>v43</td>
+<td>改用总成本法重构基金盈亏计算，修正部分卖出后收益率异常跳升的问题</td>
+</tr>
+<tr>
+<td>v44</td>
+<td>新增 Daily NAV Update 页面，支持手动录入每日基金净值及历史记录</td>
+</tr>
+<tr>
+<td>v45–v47</td>
+<td>侧边栏新增各账户类型快捷"+"按钮；Sub-Total/Group Total 样式统一为醒目灰色徽章</td>
+</tr>
+<tr>
+<td>v48</td>
+<td>每支基金拥有独立 Activity 页；导出导入移入更多操作；Setting 页更名并整合成员管理</td>
+</tr>
+<tr>
+<td>v49</td>
+<td>股息现金支付（Dividend Cheque Payout）纳入基金盈亏计算</td>
+</tr>
+<tr>
+<td>v50</td>
+<td>新增 Bank/Cash 子分组、"Bank Loan"账户组及贷款关联账户功能</td>
+</tr>
+<tr>
+<td>v51</td>
+<td>统一单位信托账户余额口径为"份额 × 最新净值"，消除各页面数字不一致的问题</td>
+</tr>
+<tr>
+<td>v52–v54</td>
+<td>房产账户横幅改称"Purchase Cost"；贷款利息计入净值开关；净值计算与成员排除逻辑修正</td>
+</tr>
+<tr>
+<td>v55</td>
+<td>定存到期日内嵌显示；多币种账户新增基准货币汇总及各币种独立 Activity 页</td>
+</tr>
+<tr>
+<td>v56</td>
+<td>侧边栏 Fixed Deposit 快捷入口汇总显示各账户下所有活跃定存</td>
+</tr>
+<tr>
+<td>v57</td>
+<td>修复货币下拉未填充、部分表单字段被压扁、成员页缺失"排除净值"标签等问题</td>
+</tr>
+<tr>
+<td>v58–v61</td>
+<td>外币行统一显示基准货币等值（≈ 符号），并修正多处对齐/布局问题</td>
+</tr>
+<tr>
+<td>v62–v64</td>
+<td>修复返回后滚动位置丢失；侧边栏筛选视图精简；基金/币种/定存明细支持独立折叠展开</td>
+</tr>
+<tr>
+<td>v65</td>
+<td>备份导出新增包含个人偏好设置（默认账户、组件筛选状态等）</td>
+</tr>
+<tr>
+<td>v66</td>
+<td>房产新增物业类型与持有起始日；贷款账户新增透支/循环贷款额度字段</td>
+</tr>
+<tr>
+<td>v67–v68</td>
+<td>新增"获取实时汇率"按钮；汇率显示方向根据币值大小自动调整</td>
+</tr>
+<tr>
+<td>v69</td>
+<td>修复同名账户在列表中无法区分的问题</td>
+</tr>
+<tr>
+<td>v70</td>
+<td>一度新增"应收/应付账款"账户分组（后于 v157 改为 Other Assets/Liabilities）</td>
+</tr>
+<tr>
+<td>v71</td>
+<td>精简关联账户在下拉框与页面标题中的显示文字</td>
+</tr>
+<tr>
+<td>v72–v73</td>
+<td>新增分类"排除出净储蓄报表"开关，覆盖 Dashboard、各报表、分类明细全部统计口径</td>
+</tr>
+<tr>
+<td>v74–v75</td>
+<td>修复分类钻取页被仪表盘筛选器意外过滤的问题；Dashboard 新增可自定义的 Accounts 小组件</td>
+</tr>
+<tr>
+<td>v76</td>
+<td>Dashboard 精简"更多"入口，导出/导入按钮移至顶部工具条</td>
+</tr>
+<tr>
+<td>v77–v78</td>
+<td>修复基金持仓跨账户误判"已删除"重复计算的问题；新增 Unit Trust Portfolio 报表</td>
+</tr>
+<tr>
+<td>v79–v83</td>
+<td>定存相关分类统一改名、到期续存按钮直达提醒行、时区导致到期日偏差修复、数字输入被鼠标滚轮误改的修复</td>
+</tr>
+<tr>
+<td>v84–v87</td>
+<td>货币/账户下拉排序与默认值修正；分类钻取继承年份筛选；新增"联名（2人以上）"成员筛选选项</td>
+</tr>
+<tr>
+<td>v88–v90</td>
+<td>新增拆分记账、计算器输入框、交易详情弹窗与退款（Refund）流程</td>
+</tr>
+<tr>
+<td>v91–v95</td>
+<td>修复拆分交易分组显示、编辑丢失分组标记、分类钻取金额错误合并、弹窗层级卡死等一系列拆分记账相关 bug</td>
+</tr>
+<tr>
+<td>v96–v100</td>
+<td>移除"To"字段、交易列表显示备注、货币选择移至表单顶部、拆分行样式统一、账户选择器改为自定义弹窗解决安卓字体过大问题、原创计算器图标</td>
+</tr>
+<tr>
+<td>v102–v103</td>
+<td>分类支持一级子分类（主分类→子分类）；Net Savings Statement 支持主分类汇总并可展开子分类明细</td>
+</tr>
+<tr>
+<td>v104</td>
+<td>新增"Financial Assets vs Real Estate"按成员净值拆分报表</td>
+</tr>
+<tr>
+<td>v105</td>
+<td>Salary/Investments/Freelance 由占位符转为可编辑的真实分类</td>
+</tr>
+<tr>
+<td>v106–v113</td>
+<td>新增独立的"Salary"快速记账入口，支持 EPF/CPF 供款拆分、各类津贴、货币、默认收款账户等多轮打磨</td>
+</tr>
+<tr>
+<td>v114</td>
+<td>修复默认分类被改名后，下次启动可能被重复创建的问题</td>
+</tr>
+<tr>
+<td>v115–v118</td>
+<td>全应用新增统一打印功能（悬浮按钮、报表打印排版优化、悬浮按钮位置修正）</td>
+</tr>
+<tr>
+<td>v119</td>
+<td>修复账户表单"×"关闭按钮需要点两次才生效的问题</td>
+</tr>
+<tr>
+<td>v120</td>
+<td>新增 Groceries &amp; Household、Professional Fees 分类及若干新图标</td>
+</tr>
+<tr>
+<td>v121–v123</td>
+<td>支持多张照片/PDF 附件，内置 PDF 阅读器，修复附件查看层级与滚动问题</td>
+</tr>
+<tr>
+<td>v124</td>
+<td>记账表单标题与保存/删除按钮改为吸顶/吸底，仅表单区域滚动</td>
+</tr>
+<tr>
+<td>v125</td>
+<td>修复报表进度条/色块打印时颜色丢失的问题</td>
+</tr>
+<tr>
+<td>v126</td>
+<td>侧边栏新增"Transactions"入口（全账户流水）</td>
+</tr>
+<tr>
+<td>v127–v128</td>
+<td>新增信用卡账户类型（额度、账单日、还款日、还款提醒、可用额度显示）</td>
+</tr>
+<tr>
+<td>v129</td>
+<td>全账户流水页新增年份导航</td>
+</tr>
+<tr>
+<td>v130</td>
+<td>账户新增"Account No./Ref"参考号字段</td>
+</tr>
+<tr>
+<td>v131</td>
+<td>房产账户新增产权类型（Freehold/Leasehold）与租期字段</td>
+</tr>
+<tr>
+<td>v132</td>
+<td>密码输入栏禁止浏览器弹出"保存密码"提示</td>
+</tr>
+<tr>
+<td>v133</td>
+<td>新增"Net Worth by Currency"按币种净值报表</td>
+</tr>
+<tr>
+<td>v134–v135</td>
+<td>新增修改密码功能（自动重新加密全部数据）；新增"重置应用数据"入口（需二次验证密码）</td>
+</tr>
+<tr>
+<td>v136</td>
+<td>货币徽章改为按币种专属配色</td>
+</tr>
+<tr>
+<td>v137</td>
+<td>支持为已有的多币种账户追加新币种</td>
+</tr>
+<tr>
+<td>v138–v140</td>
+<td>Salary 表单新增房屋/手机/海外/补发津贴字段及备注</td>
+</tr>
+<tr>
+<td>v141–v143</td>
+<td>修复账户/分类自定义弹窗返回键会退出应用的问题；新增打字跳转（type-ahead）；分类下拉统一为自定义弹窗</td>
+</tr>
+<tr>
+<td>v144</td>
+<td>修复编辑账户后返回键行为异常的问题</td>
+</tr>
+<tr>
+<td>v145</td>
+<td>分类下拉改为全局统一字母排序</td>
+</tr>
+<tr>
+<td>v146</td>
+<td>默认账户/分类下拉统一为自定义弹窗样式</td>
+</tr>
+<tr>
+<td>v147–v149</td>
+<td>Dashboard 报表卡改为两张可独立切换周期的卡片，支持点击收支/结余跳转到对应筛选后的明细</td>
+</tr>
+<tr>
+<td>v150</td>
+<td>交易行新增大圆形分类图标与收支色条</td>
+</tr>
+<tr>
+<td>v151</td>
+<td>拆分记账区域视觉统一，新增圆形分类图标与紧凑"+"按钮</td>
+</tr>
+<tr>
+<td>v152–v155</td>
+<td>记账表单与工资表单改为图标+字段布局；报表卡标题在窄屏换行显示；工资表单成员默认选择优化</td>
+</tr>
+<tr>
+<td>v156</td>
+<td>新增新拟物按压质感与磨砂玻璃效果（按钮、弹窗、抽屉）</td>
+</tr>
+<tr>
+<td>v157</td>
+<td>新增"Other Assets"/"Other Liabilities"账户分组（取代此前的应收/应付）</td>
+</tr>
+<tr>
+<td>v158–v160</td>
+<td>Dashboard 新增 Financial Assets/Real Estate 拆分小卡片；顶部工具条布局多轮调整</td>
+</tr>
+<tr>
+<td>v161–v162</td>
+<td>顶部工具条窄屏换行与桌面固定位置修复</td>
+</tr>
+<tr>
+<td>v163–v166</td>
+<td>账户列表、成员卡片、报表卡等全面美化（卡片阴影、头像圆标、悬浮态）</td>
+</tr>
+<tr>
+<td>v167</td>
+<td>账户 Activity 页标题下新增彩色成员标签</td>
+</tr>
+<tr>
+<td>v168–v169</td>
+<td>修复定期存款交易描述中参考号重复显示的问题（含历史数据迁移）</td>
+</tr>
+<tr>
+<td>v170</td>
+<td>修复账户余额数字过粗的问题</td>
+</tr>
+<tr>
+<td>v171</td>
+<td>新增"Multi-Currency"账户分组</td>
+</tr>
+<tr>
+<td>v172</td>
+<td>统一基准货币换算符号显示为"≈"</td>
+</tr>
+<tr>
+<td>v173–v178</td>
+<td>首页四个记账按钮改为悬浮"+"速拨按钮，经历毛玻璃、渐变、加深等多轮视觉打磨</td>
+</tr>
+<tr>
+<td>v179–v180</td>
+<td>新增背景主题功能（扩充至 12 套预设配色，含阴影联动）</td>
+</tr>
+<tr>
+<td>v181–v183</td>
+<td>新增右侧 Insights 侧栏（本月分类 Top5、大额交易、支出分类环形图），支持手机滑动呼出</td>
+</tr>
+<tr>
+<td>v184</td>
+<td>修复主题设置在应用重启后偶尔未生效的问题</td>
+</tr>
+<tr>
+<td>v185</td>
+<td>新增滑动关闭侧边栏/侧栏的手势</td>
+</tr>
+<tr>
+<td>v186</td>
+<td>成员专属页面账户列表改用统一卡片样式</td>
+</tr>
+<tr>
+<td>v187</td>
+<td>环形图重新设计（圆角分段、中心信息面板、全宽图例）</td>
+</tr>
+<tr>
+<td>v188–v189</td>
+<td>新增按描述文字汇总同类交易的功能（如一次性汇总所有"mcd"消费）</td>
+</tr>
+<tr>
+<td>v190</td>
+<td>修复分类钻取遗漏月份筛选的问题</td>
+</tr>
+<tr>
+<td>v191–v192</td>
+<td>环形图支持点击图例/扇区高亮联动</td>
+</tr>
+<tr>
+<td>v193</td>
+<td>成员标签移至币种徽章同一行</td>
+</tr>
+<tr>
+<td>v194</td>
+<td>Dashboard 新增一键加密快速导出备份按钮</td>
+</tr>
+<tr>
+<td>v195–v202</td>
+<td>新增完整深色主题系统（暗夜描边），并修复大量深色模式下的可读性问题（原生下拉框、按钮、徽章等）</td>
+</tr>
+<tr>
+<td>v203</td>
+<td>新增"跟随系统日夜模式"自动切换主题</td>
+</tr>
+<tr>
+<td>v204</td>
+<td>修复嵌套弹窗透明度叠加导致发白看不清边界的问题</td>
+</tr>
+<tr>
+<td>v205–v206</td>
+<td>新增多套主题预设（含第二套深色主题 Slate），日夜自动切换支持分别记忆</td>
+</tr>
+<tr>
+<td>v207–v209</td>
+<td>深色主题卡片顶部高光细节调整</td>
+</tr>
+<tr>
+<td>v210</td>
+<td>新增信用卡还款到期提醒</td>
+</tr>
+<tr>
+<td>v211–v216</td>
+<td>新增"Monthly Trend"月度收支柱状图，含自动缩放、悬浮提示、移动端适配等多轮打磨</td>
+</tr>
+<tr>
+<td>v217</td>
+<td>修复 Service Worker 缓存策略，主文件改为"联网优先"以确保及时获取新版本</td>
+</tr>
+<tr>
+<td>v218</td>
+<td>修复"Accounts"标题整行误触发跳转的问题</td>
+</tr>
+<tr>
+<td>v219</td>
+<td>仅 0/1 位成员时自动隐藏"按成员净值"板块，并自动勾选唯一成员</td>
+</tr>
+<tr>
+<td>v220</td>
+<td>月度趋势图新增"自动缩放"开关，异常值改为截断标记而非浮动文字</td>
+</tr>
+<tr>
+<td>v221</td>
+<td>备注/描述汇总弹窗新增手写体风格（Kalam 字体）</td>
+</tr>
+<tr>
+<td>v222–v223</td>
+<td>新增"Net Worth Statement"净值报表（点击 Portfolio Net Worth 进入），并修复返回跳转</td>
+</tr>
+<tr>
+<td>v224</td>
+<td>Dashboard 组件设置移入 Setting → Dashboard Widgets，支持自定义组件显示顺序</td>
+</tr>
+<tr>
+<td>v225</td>
+<td>修复安卓长按文字触发"Google 搜索"弹窗干扰点击的问题</td>
+</tr>
+<tr>
+<td>v226</td>
+<td>Dashboard Widgets 设置面板下拉框统一为自定义弹窗样式</td>
+</tr>
+<tr>
+<td>v227</td>
+<td>默认付款/收款账户设置移入 Setting</td>
+</tr>
+<tr>
+<td>v228–v229</td>
+<td>新增交易模板（Templates）功能，支持记账表单 ⭐ 按钮一键调用</td>
+</tr>
+<tr>
+<td>v230</td>
+<td>修复信用卡逾期判定未按结账日区分账单周期的问题</td>
+</tr>
+<tr>
+<td>v231</td>
+<td>修复同日多笔交易排序未将最新一笔置顶的问题</td>
+</tr>
+<tr>
+<td>v232–v233</td>
+<td>Transactions 页新增日历视图（列表/日历切换）</td>
+</tr>
+<tr>
+<td>v234–v236</td>
+<td>新增"利息来自哪笔定存"关联标记，定存 Activity 页显示利息缩进子行，并修复重复显示问题</td>
+</tr>
+<tr>
+<td>v237</td>
+<td>日历视图新增"今天"快捷跳转按钮</td>
+</tr>
+<tr>
+<td>v238–v242</td>
+<td>修复分类钻取返回跳转、侧边栏筛选提示精简、零余额账户在筛选视图中的隐藏逻辑等问题</td>
+</tr>
+<tr>
+<td>v243–v244</td>
+<td>多币种货币行新增币种图标"硬币"标识</td>
+</tr>
+<tr>
+<td>v245–v248</td>
+<td>新增"蜡笔小新"背景主题（含手写字体开关、原创吉祥物图标）</td>
+</tr>
+<tr>
+<td>v249–v250</td>
+<td>首次加入隐私模式（Net Worth/资产模糊显示），后改为默认模糊、不再自动重新模糊、图标改为线条风格</td>
+</tr>
+<tr>
+<td>v251</td>
+<td>各类 Activity 页面的"+"按钮统一改为速拨圆形图标样式</td>
+</tr>
+<tr>
+<td>v252</td>
+<td>描述字段新增基于历史记录的智能联想（子串模糊匹配）</td>
+</tr>
+<tr>
+<td>v253–v255</td>
+<td>修复交易模板的账户/分类图标显示问题，模板支持拆分记账；隐私模式模糊状态改为仅当次会话有效（重启即恢复模糊）</td>
+</tr>
+<tr>
+<td>v256</td>
+<td>修复平板宽度（768–1399px）下右侧 Insights 侧栏完全无法打开的问题，统一为与手机相同的滑动抽屉，并修复由此带来的遮罩层连带 bug</td>
+</tr>
+<tr>
+<td>v257</td>
+<td>新增 <strong>Tags（标签）</strong> 完整功能：Manage Tags 管理页、记账表单 Tags 字段、Spending by Tag 报表</td>
+</tr>
+<tr>
+<td>v258–v260</td>
+<td>修复未过滤的 Financial Accounts 列表中 Sub-Total 显示逻辑：单账户子分组不重复显示总额，同时用细分隔线标出边界，覆盖"子分组切换"与"无子分组账户"两类场景</td>
+</tr>
+<tr>
+<td>v261</td>
+<td>修复退款导致的"双重负号"显示 bug，金额正负号与颜色改为按实际净额方向决定，而非固定按分类类型</td>
+</tr>
+<tr>
+<td>v262</td>
+<td>Investment 子分组新增 <strong>PTPTN</strong>，并补上 Net Worth Statement 中对应的资产行</td>
+</tr>
+<tr>
+<td>v263</td>
+<td>顶部工具条 💾/🔒 图标改为与 👁️ 同款线框风格，并调整顺序为 保存 → 隐私模式 → 锁定</td>
+</tr>
+<tr>
+<td>v264</td>
+<td>退款分类改为可自由选择（不再锁定原分类）；修正 "Divident EPF" 拼写为 "Dividend EPF"（含历史数据自动迁移）；清理下拉框中的遗留占位分类 "Groceries"；新增主分类 "Books &amp; Stationery" 与子分类 "Parking"</td>
+</tr>
+<tr>
+<td>v265</td>
+<td>自动清理并合并重复分类 "FD Interest" → "FD Interest Income"</td>
+</tr>
+<tr>
+<td>v266</td>
+<td>分类图标新增 🪶🥕🐻</td>
+</tr>
+<tr>
+<td>v267</td>
+<td>分类图标新增 🐮🐑🦊（归入 Family &amp; Pets 组）</td>
+</tr>
+<tr>
+<td>v268</td>
+<td>新增 <strong>Total Bill Summary</strong>（总账单汇总）报表，位于 Reports 分组顶部：按年列出收入/支出/结余，另有 Total（全部时间）与 Yearly Average（年均）两行</td>
+</tr>
+<tr>
+<td>v269</td>
+<td>Total Bill Summary 中点击某年（或 Total）的 Balance 数值可跳转到 Net Savings Statement 并自动按对应年份筛选，Yearly Average 行不可点击</td>
+</tr>
+<tr>
+<td>v270</td>
+<td>修复从 Total Bill Summary 跳转到 Net Savings Statement 后，返回键/手势会错误跳回 Dashboard 而非原页面的问题</td>
+</tr>
+<tr>
+<td>v271</td>
+<td>合并两条并行开发分支：引入完整的 <strong>Budget（预算）</strong> 功能（月度/年度预算、Dashboard 小组件等），同时保留另一分支已有的 Total Bill Summary 报表与分类修复</td>
+</tr>
+<tr>
+<td>v272</td>
+<td>Budget 功能打磨：自动衍生月份新增分类预算时直接锁定当月衍生金额；移除 Dashboard 重复的"Manage"入口；进度条加入圆形当前位置标记</td>
+</tr>
+<tr>
+<td>v273</td>
+<td>首页顶部改为渐变"英雄卡片"样式展示净值与资产/房产小卡片；货币设置（💱 Currency Setting）迁移到 Setting 页面</td>
+</tr>
+<tr>
+<td>v274</td>
+<td>修复信用卡"逾期"判定错误地把未来日期的还款交易计入当前余额，导致新消费被误标记为逾期的问题</td>
+</tr>
+<tr>
+<td>v275</td>
+<td>进一步修正信用卡逾期计算：改为按账单周期直接追踪已还款金额，而非简单比较总余额前后差值，修复本期新消费仍被误标记"逾期"的残留问题</td>
+</tr>
+<tr>
+<td>v276</td>
+<td>单一账户的 Activity 页面（选定具体年份时）新增月份分隔标签</td>
+</tr>
+<tr>
+<td>v277</td>
+<td>侧边栏 Transactions（总流水）页面同样支持月份分隔标签；切到"All Years"时分隔标签同时显示年份</td>
+</tr>
+<tr>
+<td>v278</td>
+<td>新增 <strong>Review Attachments</strong>（附件审查）页面：Setting → App Local Database → 🔍，按时间从旧到新列出所有带附件的交易，可按超过 6/12/24 个月筛选</td>
+</tr>
+<tr>
+<td>v279</td>
+<td>支持在附件详情弹窗中直接<strong>删除单个附件</strong>（需二次确认），不影响交易本身其他字段</td>
+</tr>
+<tr>
+<td>v280</td>
+<td>Review Attachments 列表中，单笔交易内最大附件体积 ≥1MB 时显示琥珀色体积徽章</td>
+</tr>
+<tr>
+<td>v281</td>
+<td>新增"报销"流程：Options 弹窗的 Refund 拆分为 <strong>↩️ Refund</strong> / <strong>💰 Reimbursement</strong>；标签新增"📌 显示为 Dashboard 提醒"开关；首页新增 <strong>Tag Reminders</strong> 小组件</td>
+</tr>
+<tr>
+<td>v282</td>
+<td>修复编辑 Refund/Reimbursement 交易时退款标记被静默清除、污染报表金额的问题；新增 <code>refundReason</code> 字段正确区分两种徽章显示；修复 Reimbursement 按钮在收入/已结清交易上仍误显示的问题</td>
+</tr>
+<tr>
+<td>v283</td>
+<td>首页 Tag Reminders 各行可点击，直接跳转到对应标签的 Spending by Tag 报表；交易列表与首页 Recent Transactions 中为挂有标签的交易新增可点击的 🔖 徽章</td>
+</tr>
+<tr>
+<td>v284</td>
+<td>点击交易描述旁的 🔖 标签徽章，同样可直接跳转到该标签的 Spending by Tag 报表（与 Dashboard 的 Tag Reminders 行同一目的地）</td>
+</tr>
+<tr>
+<td>v285</td>
+<td>修复点击 "🔖 Claim" 标签徽章时误跳转到 Spending by Tag 报表的问题，改为直接打开预填金额/账户/分类的 Reimbursement 表单</td>
+</tr>
+<tr>
+<td>v286</td>
+<td>Reimbursement 表单新增"移除原交易标签"开关（默认开启），保存报销后自动从原支出上摘除对应标签</td>
+</tr>
+<tr>
+<td>v287</td>
+<td>已报销/已退款的支出行新增绿色 "✅ Claimed / Refunded" 徽章，点击可跳转到对应报销记录</td>
+</tr>
+<tr>
+<td>v288</td>
+<td>Spending by Tag 报表列表补齐标签徽章与已报销徽章，此前该处交易行点击无法直接进入报销流程</td>
+</tr>
+<tr>
+<td>v289</td>
+<td>修复保存报销后 Spending by Tag 报表未即时刷新、需退出重进才会更新的问题</td>
+</tr>
+<tr>
+<td>v290</td>
+<td>新增预置分类 "Company Expenses (Claimable)"（自动排除出报表/预算）与配套标签 "Pending Claim"，选用该分类记账会自动挂上标签</td>
+</tr>
+<tr>
+<td>v291</td>
+<td>交易详情（Quick View）新增 "Tags" 行，可逐个移除标签，无需绕道报销流程</td>
+</tr>
+<tr>
+<td>v292</td>
+<td>新增 <strong>🧾 Settle Multiple Bills as One Claim</strong>：在 Pending Claim 标签视图下可勾选多笔待报销支出一次性核销，自动生成短收/多收记录</td>
+</tr>
+<tr>
+<td>v293</td>
+<td>修复 Excluded from Report 中 Company Expenses (Claimable) 净额为正（多报销）时符号显示错误的问题</td>
+</tr>
+<tr>
+<td>v294</td>
+<td>修复导入备份（Import JSON）会清空但未写回 Budget（预算）数据的问题——受影响的备份重新导入一次即可恢复预算</td>
+</tr>
+<tr>
+<td>v295</td>
+<td>报销机制重做：新增资产类账户 "Claims Receivable"（应收报销款）取代原本按分类排除的做法，记一笔待报销支出会转入该账户余额，天然不计入报表/预算</td>
+</tr>
+<tr>
+<td>v296</td>
+<td>Pending Claim 标签视图不再显示分类占比环形图（其余标签不受影响）</td>
+</tr>
+<tr>
+<td>v297</td>
+<td>修复导入备份会重新分配交易 ID、导致 FD 利息关联与已报销徽章失效（甚至可能重复核销）的问题——交易 ID 现原样保留</td>
+</tr>
+<tr>
+<td>v298</td>
+<td>报销入口按钮改名为通用的 "Lend / Claim"，相关文案同步去除"公司"字样，适用于任何借出/待收回款项</td>
+</tr>
+<tr>
+<td>v299</td>
+<td>FD 账户 Activity 页新增收入条目默认预选 FD Interest Income 分类；一次性自动清理已弃用的 Company Expenses (Claimable) 分类</td>
+</tr>
+<tr>
+<td>v300</td>
+<td>账本（Ledger）页新增 📤 CSV 导出，范围跟随当前查看视图（全部账户或单一账户），金额带正负号，UTF-8 BOM 兼容 Excel</td>
+</tr>
+<tr>
+<td>v301</td>
+<td>Total Bill Summary 报表新增 📤 CSV 导出，导出内容与屏幕显示、Member 筛选保持一致</td>
+</tr>
+<tr>
+<td>v302</td>
+<td>修复账本 CSV 导出中 Opening Balance 记录被误标为 "(deleted account)" 的问题</td>
+</tr>
+<tr>
+<td>v303–v307</td>
+<td>日历日详情卡片改为"收据"风格：锯齿边、虚线分割、当日净额手写体（Kalam 字体）显示、交易行间改为虚线分隔</td>
+</tr>
+<tr>
+<td>v308</td>
+<td>Net Worth by Currency 报表新增 "Compare also in" 对照货币列，可在原有基准货币旁再显示一种货币的等值金额</td>
+</tr>
+<tr>
+<td>v309</td>
+<td>修复 "Compare also in" 对照货币下拉框选择后无反应的问题</td>
+</tr>
+<tr>
+<td>v310</td>
+<td>首页净值卡片同步显示对照货币小徽章，隐私模式点击显隐时两个数字联动</td>
+</tr>
+<tr>
+<td>v311</td>
+<td>修复多币种账户无法录入负的期初余额（如某币种一开始就是透支/欠款状态）的问题</td>
+</tr>
+<tr>
+<td>v312</td>
+<td>修复多处金额出现"双重负号"（如 +RM-14,206.44）的显示问题</td>
+</tr>
+<tr>
+<td>v313</td>
+<td>修复转账方向的正负号判断只看来源/去向账户、未考虑金额本身正负，导致符号判断错误的问题</td>
+</tr>
+<tr>
+<td>v314</td>
+<td>修复负数金额的货币符号顺序错误（如 "RM-14,206.44" 应显示为 "-RM14,206.44"）</td>
+</tr>
+<tr>
+<td>v315</td>
+<td>Balance B/F、Balance C/F、Opening Balance Setup 行的负数金额统一改为红色带括号显示，与全 App 其他负数一致</td>
+</tr>
+<tr>
+<td>v316–v318</td>
+<td>Net Savings Statement / Spending Breakdown / Income Breakdown 各分类行新增外币小计提示（"≈"等值 或 "incl." 部分含有），基准货币之外的原生金额一目了然</td>
+</tr>
+<tr>
+<td>v319–v322</td>
+<td>新增 <strong>Inventory（物品库存）</strong> 功能：支出记账时可勾选 "📦 加入库存"，自动带出供应商/名称/购买信息，支持序号、型号、多条保修（到期提醒）、附件、来源账户；侧边栏新页面支持 All/Active/Disposed/Lost 筛选、收据风格卡片、总价值合计，附件可直接点开查看，保修过期改用红色徽章提示</td>
+</tr>
+<tr>
+<td>v323</td>
+<td>"incl." 外币小计进一步补上换算等值金额（如 "incl. RM200.00 ≈ S$62.85"）</td>
+</tr>
+<tr>
+<td>v324</td>
+<td>修复首页净值卡片"点显示/点跳转"循环卡死、跳转一次后无法再次隐藏金额的问题</td>
+</tr>
+<tr>
+<td>v325</td>
+<td>首页 Recent Transactions 区块新增 📅 日历视图快捷入口，一键跳转到 Transactions 页的日历模式</td>
+</tr>
+<tr>
+<td>v326</td>
+<td>新增 <strong>Net Worth Card Style</strong> 设置（Setting → Background Theme 下方），可为首页净值卡片单独选择渐变配色，独立于整体主题</td>
+</tr>
+<tr>
+<td>v327–v328</td>
+<td>分类图标转义安全加固：修复导入被篡改的备份文件时分类图标字段有极小概率被注入恶意标签的问题，已在数据加载源头统一转义堵上</td>
+</tr>
+<tr>
+<td>v329</td>
+<td>修复 Inventory 合计栏被悬浮 "+" 按钮遮挡、Inventory 页面按返回键会直接退出 App、以及库存图标在平板/电脑端被误隐藏三个问题</td>
+</tr>
+<tr>
+<td>v330</td>
+<td>Inventory 页面标题旁新增 📤 CSV 导出，导出范围跟随当前 All/Active/Disposed/Lost 筛选</td>
+</tr>
+<tr>
+<td>v331</td>
+<td>Quick View 标签行新增 "+ Add" 按钮，弹出勾选式多选标签选择器（含搜索与 "+ Create tag" 新建）</td>
+</tr>
+<tr>
+<td>v332</td>
+<td>标签新增专属图标与颜色，可在 Manage Tags 逐个编辑，App 内所有出现该标签的地方同步生效</td>
+</tr>
+<tr>
+<td>v333</td>
+<td>标签图标新增 ✅✈️；新增 Mobile 📱 支出分类；"Handphone Claim" 改名为 "Phone Allowance"（含一次性数据迁移，旧记录自动改名不产生重复分类）</td>
+</tr>
+<tr>
+<td>v334</td>
+<td>Dashboard Widgets 新增 Budget Widget 分类勾选，可为个别分类在首页单独显示进度条</td>
+</tr>
+<tr>
+<td>v335</td>
+<td>Accounts / Recent Transactions 小组件新增 "None（隐藏）" 选项；Budget Widget 新增整体显示开关；修复保存 "0 项" 被错误当成 "5 项" 的 bug</td>
+</tr>
+<tr>
+<td>v336–v338</td>
+<td>Financial Accounts 列表新增 📤 导出 CSV，随后两版把多币种/基金/定存被挤在一列的明细拆成独立行，并把"小计"与"明细金额"分开成两列，避免重复计入总额</td>
+</tr>
+<tr>
+<td>v339</td>
+<td>修复数据里重复的 "Phone Allowance" 分类导致报表金额翻倍显示、以及 "Salary (General)" 未在收支分类明细里单独出现导致合计对不上的问题</td>
+</tr>
+<tr>
+<td>v340</td>
+<td>单账户 Activity 页 CSV 导出恢复 Opening Balance 行；Financial Accounts 列表导出恢复无拆分明细的简洁格式</td>
+</tr>
+<tr>
+<td>v341–v349</td>
+<td>新增 Setting → 🐾 Companion（吉祥物）功能：从线稿宠物/十二生肖内置图标起步，逐步加入自定义相册上传、居中裁切、多张保存与切换，最终移除全部内置图标、只保留照片库，详见<a class="xref" href="#/c16">第十六节</a></td>
+</tr>
+<tr>
+<td>v350</td>
+<td>修复 Salary Entry 默认日期在本地零点后头几小时仍显示"昨天"的问题（改用与全 App 一致的本地日期算法）</td>
+</tr>
+<tr>
+<td>v351–v354</td>
+<td>新增 "✨ Quick Add" 自然语言快速记账输入框：本地离线解析金额、相对日期、历史交易匹配、关键词猜类别，随后两版修复候选分类账户误判、数量词（如"3人"）被误当金额抓取、历史匹配回填简写而非完整名称等问题</td>
+</tr>
+<tr>
+<td>v355–v363</td>
+<td>新增 "🕒 Save as Planned" 与 "🔁 Repeat" 计划付款/周期扣款功能，含暂停/恢复、编辑周期与到期日、Dashboard 小组件、侧边栏完整列表，并修复月末日期钳制漂移、新建计划字段丢失、弹窗竞态等一系列 bug，详见<a class="xref" href="#/c17">第十七节</a></td>
+</tr>
+<tr>
+<td>v364–v366</td>
+<td>修复宽屏（≥1400px）下内容列与右侧 Insights 侧栏未居中的问题，最终改为真正的弹性布局居中而非依赖两个独立公式凑数</td>
+</tr>
+<tr>
+<td>v367</td>
+<td>Planned Payments 行样式统一为"图标 + 上下两行"排版，与 Transaction Templates 一致</td>
+</tr>
+<tr>
+<td>v368</td>
+<td>备份文件名改用第一位家庭成员的名字（如 ledger_husband_...），不再固定用 "backup"</td>
+</tr>
+<tr>
+<td>v369</td>
+<td>修复新建交易表单短暂显示上一笔交易残留金额、"Split Total" 显示与实际数据不同步的问题</td>
+</tr>
+<tr>
+<td>v370</td>
+<td>新增越南盾（VND）为可用货币，含符号、配色与占位汇率</td>
+</tr>
+<tr>
+<td>v371</td>
+<td>Background Theme 新增第三套深色主题"尊爵黑金（Black &amp; Gold）"</td>
+</tr>
+<tr>
+<td>v372–v377</td>
+<td>Monthly Trend 图表下方新增可折叠的月度收支明细表格，历经默认展开/折叠记忆、移动端改为堆叠布局、再改回四列单行等多轮打磨</td>
+</tr>
+<tr>
+<td>v378</td>
+<td>Total Bill Summary 报表 "Period"（年份）列改为横向滚动时固定在左侧不动</td>
+</tr>
+<tr>
+<td>v379</td>
+<td>账户新增真实 Logo 上传功能，替代默认的字母渐变徽章</td>
+</tr>
+<tr>
+<td>v380</td>
+<td>Background Theme 新增 "Liquid Glass"（液态玻璃）主题</td>
+</tr>
+<tr>
+<td>v381</td>
+<td>修复新建收支表单在出现 Repeat/Save as Planned 按钮后，弹窗底部内容溢出屏幕、与日期行重叠的问题（弹窗新增最大高度限制）</td>
+</tr>
+<tr>
+<td>v382–v384</td>
+<td>新增独立的 "Monthly Trend Mascot" 吉祥物设置（默认 "🔗 Match Companion" 跟随主吉祥物），并修复入口无响应、两个相册面板同时打开时张数不同步的问题</td>
+</tr>
+<tr>
+<td>v385</td>
+<td>Companion 吉祥物移除全部十二生肖内置图标，只保留 "None" 与自定义照片库；已选生肖的用户自动回落为 None</td>
+</tr>
+<tr>
+<td>v386–v387</td>
+<td>侧边栏 Reports 新增 "Monthly Trend" 独立报表页（与首页共用同一组件，状态互通）；Dashboard Widgets 设置面板重新排序</td>
+</tr>
+<tr>
+<td>v388</td>
+<td>修复 Unit Trust Portfolio 报表各账户分组表格列宽各自独立、无法上下对齐的问题（统一改为固定列宽）</td>
+</tr>
+<tr>
+<td>v389–v407</td>
+<td>Setting 页大改版：从逐层弹出面板改为常驻左侧图标导轨 + 右侧详情面板，历经多轮调整（返回逻辑、面板各自独立滚动、精简/合并冗余入口、当前选中项高亮等），最终形态见<a class="xref" href="#/c12">第十二节</a></td>
+</tr>
+<tr>
+<td>v408–v411</td>
+<td>修复设置子页面两列表单在账户名过长时溢出布局、内容整页因隐藏横向滚动条被意外带偏、分类/模板行文字标签与操作按钮互相挤压等一系列布局问题</td>
+</tr>
+<tr>
+<td>v412</td>
+<td>修复信用卡 "即将到期" 提醒错误地把整个当前欠款余额（含下一账单周期已产生的新消费）标注为当前到期日的问题，改为按账单周期精确计算应付金额</td>
+</tr>
+<tr>
+<td>v413</td>
+<td>新增信用卡 "🔗 Shares Credit Limit With（共享额度）" 功能，多张卡可共用同一笔信用额度，Limit/Available 自动合并计算</td>
+</tr>
+<tr>
+<td>v414</td>
+<td>新增黄金（Gold）持仓功能：沿用基金机制按克记录，Buy/Sell 专用类型、每克价格、"priced X d ago" 价格陈旧提示，黄金交易禁止原地编辑，详见<a class="xref" href="#/c8">第八节</a></td>
+</tr>
+<tr>
+<td>v415</td>
+<td>账户新增 Sub-Group "Gold"，账户列表显示 🪙 Gold 徽章，净值报表新增独立 Gold 行；修复 Fund Activity 页交易行仍显示 "units" 而非克数的问题</td>
+</tr>
+<tr>
+<td>v416</td>
+<td>Daily NAV Update 新增 All / Unit Trust / Gold 筛选标签，"Update All Prices" 只保存当前筛选的持仓；修复在该页保存价格时不刷新黄金价格更新时间的问题</td>
+</tr>
+<tr>
+<td>v417</td>
+<td>Daily NAV Update 的 History 视图跟随同一筛选标签；Unit Trust 基金名称在 History 列头改用首字母缩写（完整名称显示在悬停提示中）</td>
+</tr>
+<tr>
+<td>v418</td>
+<td>新增 <strong>Reminders（提醒事项）</strong>：侧边栏独立入口，登记护照、驾照、PR、信用卡、保险等定期续期日期；每条各自设置提前提醒天数与重复周期，首页小组件只在进入提醒窗口或逾期时出现；"Mark as Renewed" 续期确认（新到期日预填、可改）与一次性提醒的 Archive / Restore；数据加密并随备份导出/导入，详见<a class="xref" href="#/c18">第十八节</a></td>
+</tr>
+<tr>
+<td>v419</td>
+<td>Unit Trust Portfolio 页面新增 <strong>Current Invested</strong>（= Total Invested − Recovered）和 <strong>Recovered</strong>，让 <code>Current Invested + P/L = Portfolio Value</code> 一眼可见；Return 仍是 P/L ÷ Total Invested，算法不变</td>
+</tr>
+<tr>
+<td>v420</td>
+<td>Unit Trust Portfolio 的 Fund Detail 表和账户页的 Fund Holdings 表新增 <strong>Current Inv.</strong> 一列（基金行、已删除基金行、Total 行都有）；Fund Detail 表设最小宽度，窄屏可左右滑动</td>
+</tr>
+<tr>
+<td>v421</td>
+<td>Unit Trust Portfolio 头部卡片重新设计：大字 Portfolio Value + 收益率徽章（标注 return on total invested）、卡内直接列出 Current Invested + Profit / Loss 等式、Total Invested 分段条（Current Invested / Recovered）；全部改用主题变量，浅色、深色及各背景主题自动适配；绿/红只用于盈亏，亏损时徽章转红 ▼；Recovered 超过 Total Invested 时进度条封顶并给出说明；去掉旧版写死浅色的 P/L、Return 方格</td>
+</tr>
+<tr>
+<td>v422</td>
+<td>分段条上方新增 <code>BAR = TOTAL INVESTED</code> 标题行及金额，拉开条与等式的间距，两个色段增加悬停说明（仅电脑端）；删除底部重复的 Total Invested 行</td>
+</tr>
+<tr>
+<td>v423</td>
+<td>Fund Holdings 与 Fund Detail 中份额为 0 且买入过的基金折叠成一行 <code>N closed funds · Realized P/L …</code>，点击展开/收起（两处共用一个开关、按设备记住、默认收起，合计数字不受影响）；Current Invested 副标题改为 "invested − taken out"；手册新增 <strong>📊 单位信托基金使用指南</strong>，详见<a class="xref" href="#/c8">第八节</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><em>本手册基于 v255 构建整理，功能说明并已同步 v256–v423 的变更记录；版本更新记录一节现已补全至完整的 v1–v423 历史。如后续版本继续新增功能，可将新的变更记录连同本文件一起提供给 Claude，请求补充更新对应章节。</em></p>
+</div>
+<nav class="ch-nav" aria-label="上一节与下一节"><a class="nav-card prev" href="#/c19"><span class="nav-l">上一节</span><span class="nav-t">十九　常见操作速查</span></a><a class="nav-card next" href="#/"><span class="nav-l">读完了</span><span class="nav-t">回到主菜单</span></a></nav>
+<p class="ch-home"><a href="#/">回到主菜单</a></p>
+</div>
+</section>
+    </article>
+  </main>
+</div>
+
+<button class="pill" id="jumpPill" type="button" hidden>↩ 返回 <span id="pillLabel"></span></button>
+<button class="fab" id="toTop" type="button" aria-label="回到顶部" hidden>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
+</button>
+
+<div class="dialog" id="searchDlg" hidden>
+  <div class="dlg-box" role="dialog" aria-modal="true" aria-label="搜索手册">
+    <div class="dlg-head">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="searchInput" type="search" placeholder="输入关键词，多个词用空格隔开" autocomplete="off" aria-label="搜索关键词">
+      <button class="dlg-close" id="searchClose" type="button">关闭</button>
+    </div>
+    <div class="dlg-body" id="searchBody" role="listbox" aria-label="搜索结果"></div>
+  </div>
+</div>
+
+<div class="dialog" id="installDlg" hidden>
+  <div class="dlg-box" role="dialog" aria-modal="true" aria-label="安装到手机主屏幕">
+    <div class="dlg-head">
+      <img alt="" width="36" height="36" style="border-radius:8px" src="icons/icon-192.png">
+      <strong style="flex:1;font-family:var(--serif);font-size:17px">安装到手机主屏幕</strong>
+      <button class="dlg-close" id="installClose" type="button">关闭</button>
+    </div>
+    <div class="dlg-body">
+      <div class="inst-sec" data-os="ios"><h3>iPhone / iPad（Safari）</h3>
+        <ol class="steps"><li>点底部的分享按钮（方框加向上箭头）</li><li>向下滑，选“添加到主屏幕”</li><li>点右上角“添加”</li></ol></div>
+      <div class="inst-sec" data-os="android"><h3>安卓（Chrome）</h3>
+        <ol class="steps"><li>点右上角 ⋮ 菜单</li><li>选“添加到主屏幕”或“安装应用”</li><li>确认名称后点“添加”</li></ol></div>
+      <div class="inst-sec" data-os="desktop"><h3>电脑（Chrome / Edge）</h3>
+        <ol class="steps"><li>点地址栏右侧的安装图标，或菜单里的“保存并分享 → 安装为应用”</li></ol></div>
+      <div class="inst-sec"><p><b>提示：</b>安装后即可断网阅读（第一次需要联网打开一次）。手册有更新时，联网打开会自动换成新版。</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="popover" id="settings" role="dialog" aria-label="阅读设置" hidden>
+  <div class="pop-row"><span>字号</span>
+    <div class="stepper">
+      <button type="button" data-fs="-1" aria-label="减小字号">A−</button>
+      <output id="fsVal">17</output>
+      <button type="button" data-fs="1" aria-label="增大字号">A+</button>
+    </div>
+  </div>
+  <div class="pop-row"><span>手机主屏幕</span>
+    <button type="button" class="stepper-btn" id="btnInstallPop" style="padding:.3em .75em;border:1px solid var(--rule);border-radius:8px;background:var(--paper)">安装</button>
+  </div>
+  <div class="pop-row"><span>外观</span>
+    <div class="seg" id="themeSeg">
+      <button type="button" data-theme="auto" aria-pressed="true">自动</button>
+      <button type="button" data-theme="light" aria-pressed="false">浅色</button>
+      <button type="button" data-theme="green" aria-pressed="false">护眼</button>
+      <button type="button" data-theme="dark" aria-pressed="false">深色</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var META = {"version": "v423", "groups": [{"name": "入门上手", "chapters": [1, 2, 3]}, {"name": "记账与账户", "chapters": [4, 5, 6]}, {"name": "报表与投资", "chapters": [7, 8]}, {"name": "分类、工资与预算", "chapters": [9, 10, 11]}, {"name": "设置与数据", "chapters": [12, 13]}, {"name": "更多功能", "chapters": [14, 15, 16, 17, 18]}, {"name": "速查与记录", "chapters": [19, 20]}], "chapters": [{"n": 1, "numeral": "一", "title": "这是一款什么样的 App", "short": "这是一款什么样的 App", "summary": "完全离线的个人/家庭记账 App：数据只在本机，支持多种账户、多位成员和加密锁。", "headings": [], "minutes": 1}, {"n": 2, "numeral": "二", "title": "首次使用：设置密码锁", "short": "首次使用：设置密码锁", "summary": "第一次设置密码、开启指纹/人脸解锁，以及忘记密码的后果。", "headings": [{"id": "c2-s1", "level": 3, "text": "之后每次打开 App"}], "minutes": 1}, {"n": 3, "numeral": "三", "title": "主界面（Dashboard）总览", "short": "主界面（Dashboard）总览", "summary": "首页每个区块显示什么，隐私模式、Insights 侧栏和“+”按钮怎么用。", "headings": [], "minutes": 3}, {"n": 4, "numeral": "四", "title": "记一笔账（收入 / 支出 / 转账 / 工资）", "short": "记一笔账", "summary": "收入、支出、转账；Quick Add、拆分、标签、附件；退款、报销与待收回款项。", "headings": [{"id": "c4-s1", "level": 3, "text": "退款与报销（Refund / Reimbursement）"}, {"id": "c4-s2", "level": 4, "text": "待报销支出：Claims Receivable（应收报销款）"}, {"id": "c4-s3", "level": 3, "text": "交易模板（⭐ 按钮）"}], "minutes": 6}, {"n": 5, "numeral": "五", "title": "账户管理（Financial Accounts）", "short": "账户管理", "summary": "账户类型、分组与子分组，以及净值、Logo 等常用字段。", "headings": [{"id": "c5-s1", "level": 3, "text": "账户类型（Account Type）"}, {"id": "c5-s2", "level": 3, "text": "账户分组（Group）与子分组（Sub-Group）"}, {"id": "c5-s3", "level": 3, "text": "侧边栏账户类型快捷入口"}, {"id": "c5-s4", "level": 3, "text": "关于 Sub-Total 分界线"}], "minutes": 3}, {"n": 6, "numeral": "六", "title": "家庭成员与联名账户", "short": "家庭成员与联名账户", "summary": "添加家庭成员、设置联名账户，并按成员查看资产和报表。", "headings": [], "minutes": 1}, {"n": 7, "numeral": "七", "title": "报表与统计（侧边栏 \"Reports\" 分组）", "short": "报表与统计", "summary": "各个报表能回答什么问题，以及怎样同时对照两种货币。", "headings": [], "minutes": 3}, {"n": 8, "numeral": "八", "title": "单位信托基金（Unit Trust）、黄金（Gold）与定期存款（FD）专属操作", "short": "基金、黄金与定期存款", "summary": "基金从建立到清仓的完整流程、实物黄金记录方法，以及定期存款操作。", "headings": [{"id": "c8-s1", "level": 3, "text": "📊 单位信托基金使用指南（从建立到清仓）"}, {"id": "c8-s2", "level": 3, "text": "🪙 记录实物黄金（金条 / 金饰 / 银行黄金账户）"}], "minutes": 10}, {"n": 9, "numeral": "九", "title": "分类、标签与模板管理", "short": "分类、标签与模板管理", "summary": "管理收支分类、标签和记账模板。", "headings": [], "minutes": 1}, {"n": 10, "numeral": "十", "title": "工资（Salary）录入", "short": "工资录入", "summary": "工资、公积金供款与各类津贴的专用录入表单。", "headings": [], "minutes": 1}, {"n": 11, "numeral": "十一", "title": "预算管理（Budget）", "short": "预算管理", "summary": "月度/年度预算、分类预算，以及首页预算进度条的来源。", "headings": [], "minutes": 1}, {"n": 12, "numeral": "十二", "title": "设置（Setting）总览", "short": "设置总览", "summary": "设置页各图标入口：主题、货币、成员、分类、备份、自动锁定等。", "headings": [], "minutes": 2}, {"n": 13, "numeral": "十三", "title": "备份与恢复数据", "short": "备份与恢复数据", "summary": "加密导出与导入备份，换设备或换网址前必读。", "headings": [], "minutes": 1}, {"n": 14, "numeral": "十四", "title": "物品库存管理（Inventory）", "short": "物品库存管理", "summary": "登记贵重物品与保修期限，并导出库存清单。", "headings": [], "minutes": 2}, {"n": 15, "numeral": "十五", "title": "附件管理与打印导出", "short": "附件管理与打印导出", "summary": "附件查看与清理、CSV 导出和打印。", "headings": [], "minutes": 2}, {"n": 16, "numeral": "十六", "title": "吉祥物与净值卡装饰（Companion）", "short": "吉祥物与净值卡装饰", "summary": "用照片库给首页和月度趋势图配上小吉祥物。", "headings": [], "minutes": 1}, {"n": 17, "numeral": "十七", "title": "计划付款与周期扣款（Planned Payments）", "short": "计划付款与周期扣款", "summary": "把还没到付款日的账单存成计划，并设置周期重复。", "headings": [], "minutes": 2}, {"n": 18, "numeral": "十八", "title": "提醒事项（Reminders）", "short": "提醒事项", "summary": "登记护照、驾照、保险等证件的续期日期，到期前在首页提醒。", "headings": [{"id": "c18-s1", "level": 3, "text": "新增一条提醒"}, {"id": "c18-s2", "level": 3, "text": "首页小组件与完整列表"}, {"id": "c18-s3", "level": 3, "text": "点一条提醒能做什么"}, {"id": "c18-s4", "level": 3, "text": "续期流程（Mark as Renewed）"}, {"id": "c18-s5", "level": 3, "text": "一次性提醒"}], "minutes": 3}, {"n": 19, "numeral": "十九", "title": "常见操作速查", "short": "常见操作速查", "summary": "“我想做某件事，该去哪里？”——一张速查表。", "headings": [], "minutes": 4}, {"n": 20, "numeral": "二十", "title": "版本更新记录（v1–v423，完整版）", "short": "版本更新记录", "summary": "从 v1 到 v423 的完整变更记录，可按版本段筛选。", "headings": [], "minutes": 30}]};
+
+var $ = function(s, r){ return (r||document).querySelector(s); };
+var $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+var esc = function(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); };
+var escRe = function(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); };
+var store = {
+  get:function(k){ try{ return localStorage.getItem('ledger-manual:'+k); }catch(e){ return null; } },
+  set:function(k,v){ try{ localStorage.setItem('ledger-manual:'+k, v); }catch(e){} }
+};
+function chap(n){ return META.chapters.filter(function(c){return c.n===n;})[0]; }
+function chapLabel(c){ return '第'+c.numeral+'节 '+c.short; }
+
+/* ---------- 侧边目录 ---------- */
+function buildSidebar(){
+  var h = '<a class="sb-home" href="#/"><span class="seal seal-sm" aria-hidden="true">册</span>主菜单</a>';
+  META.groups.forEach(function(g){
+    h += '<div class="sb-group"><div class="sb-gname">'+esc(g.name)+'</div>';
+    g.chapters.forEach(function(n){
+      var c = chap(n);
+      h += '<div class="sb-item" data-n="'+n+'"><a class="sb-link" href="#/c'+n+'"><span class="seal seal-sm" aria-hidden="true">'+c.numeral+'</span><span class="sb-t">'+esc(c.short)+'</span></a>';
+      if(c.headings.length){
+        h += '<ul class="sb-subs">'+c.headings.map(function(x){
+          return '<li class="lv'+x.level+'"><a href="#/c'+n+'/'+x.id+'" data-id="'+x.id+'">'+esc(x.text)+'</a></li>';
+        }).join('')+'</ul>';
+      }
+      h += '</div>';
+    });
+    h += '</div>';
+  });
+  $('#sidebar').innerHTML = h;
+}
+
+/* ---------- 路由 ---------- */
+var curKey = null, freshNav = false, pending = null, trail = [], pillFrom = null, saved = {};
+try{ history.scrollRestoration = 'manual'; }catch(e){}
+
+function parseHash(h){
+  var m = (h||'').match(/^#\/c(\d+)(?:\/(.+))?$/);
+  if(m && chap(+m[1])) return {n:+m[1], anchor:m[2]||null};
+  return {n:0, anchor:null};
+}
+function keyOf(r){ return r.n ? 'c'+r.n+(r.anchor?'/'+r.anchor:'') : 'home'; }
+
+function navigate(href, opts){
+  opts = opts || {};
+  var r = parseHash(href), same = keyOf(r)===curKey && href===(location.hash||'#/');
+  pillFrom = opts.pill || null;
+  pending = opts.target ? {el:opts.target, terms:opts.terms||[]} : null;
+  freshNav = true;
+  closeDrawer(); closeSettings();
+  if(!same){
+    try{ history.pushState(null,'',href); }
+    catch(e){ try{ location.hash = href; }catch(e2){} }
+  }
+  onRoute(href);
+}
+
+function onRoute(hash){
+  var r = parseHash(hash), key = keyOf(r);
+  var fresh = freshNav; freshNav = false;
+  if(key===curKey && !fresh) return;
+  if(curKey!==null && curKey!==key){
+    saved[curKey] = window.scrollY;
+    if(fresh) trail.push(curKey);
+    else if(trail.length && trail[trail.length-1]===key) trail.pop();
+    else trail.push(curKey);
+  }
+  if(!fresh) pillFrom = null;
+  curKey = key;
+  render(r, fresh);
+}
+
+function render(r, fresh){
+  clearMarks();
+  var home = $('#view-home'), view = $('#view-chapter');
+  if(!r.n){
+    home.hidden = false; view.hidden = true;
+    $('#crumb').textContent = '主菜单';
+    document.title = 'Ledger 记账本 用户手册';
+    updateResume();
+  } else {
+    home.hidden = true; view.hidden = false;
+    $$('.chapter').forEach(function(s){ s.hidden = (+s.dataset.n !== r.n); });
+    var c = chap(r.n);
+    $('#crumb').textContent = chapLabel(c);
+    document.title = c.short+' — Ledger 用户手册';
+    store.set('last', JSON.stringify({n:r.n, anchor:r.anchor}));
+  }
+  updateSidebar(r);
+  $('#btnBack').hidden = trail.length===0;
+  var p = $('#jumpPill');
+  if(pillFrom){ $('#pillLabel').textContent = pillFrom; p.hidden = false; } else p.hidden = true;
+
+  var pend = pending; pending = null;
+  requestAnimationFrame(function(){
+    var k = keyOf(r);
+    if(!fresh && saved[k]!=null){ window.scrollTo(0, saved[k]); }
+    else if(pend && pend.el){ revealTarget(pend); }
+    else if(r.anchor){
+      var el = document.getElementById(r.anchor);
+      if(el){ el.scrollIntoView({block:'start'}); flash(el); } else window.scrollTo(0,0);
+    } else window.scrollTo(0,0);
+    onScroll(true);
+  });
+}
+
+function flash(el){ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+function revealTarget(p){
+  var el = p.el, row = el.closest ? el.closest('tr') : null;
+  if(row && row.hidden) resetFilters();
+  el.scrollIntoView({block:'center'});
+  if(p.terms && p.terms.length) highlightIn(el, p.terms);
+  flash(el);
+}
+
+function updateSidebar(r){
+  $$('.sb-item').forEach(function(it){ it.classList.toggle('active', +it.dataset.n===r.n); });
+  $('.sb-home').classList.toggle('active', !r.n);
+  $$('.sb-link,.sb-home').forEach(function(a){ a.removeAttribute('aria-current'); });
+  var a = r.n ? $('.sb-item.active .sb-link') : $('.sb-home');
+  if(a){ a.setAttribute('aria-current','page'); keepVisible(a); }
+  setActiveSub(null);
+}
+function keepVisible(a){
+  var sb = $('#sidebar'), ar = a.getBoundingClientRect(), sr = sb.getBoundingClientRect();
+  if(ar.top < sr.top+8 || ar.bottom > sr.bottom-8) sb.scrollTop += ar.top - sr.top - sr.height/3;
+}
+var activeSub = null;
+function setActiveSub(id){
+  if(id===activeSub) return; activeSub = id;
+  var on = null;
+  $$('.sb-subs a').forEach(function(a){ var is = a.dataset.id===id; a.classList.toggle('on', is); if(is) on = a; });
+  if(on) keepVisible(on);
+}
+
+function updateResume(){
+  var box = $('#resume'), last = null;
+  try{ last = JSON.parse(store.get('last')||'null'); }catch(e){}
+  if(last && chap(last.n)){
+    var c = chap(last.n), ok = last.anchor && c.headings.some(function(x){return x.id===last.anchor;});
+    $('#resumeLink').setAttribute('href','#/c'+last.n+(ok?'/'+last.anchor:''));
+    $('#resumeText').textContent = chapLabel(c);
+    box.hidden = false;
+  } else box.hidden = true;
+}
+
+/* ---------- 滚动：进度条 / 小节高亮 ---------- */
+var ticking = false, saveTimer = null;
+window.addEventListener('scroll', function(){
+  if(!ticking){ ticking = true; requestAnimationFrame(function(){ ticking = false; onScroll(); }); }
+}, {passive:true});
+function onScroll(){
+  var y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
+  var inCh = !$('#view-chapter').hidden;
+  $('#progressBar').style.width = (inCh && max>0) ? Math.min(100, y/max*100)+'%' : '0%';
+  $('#toTop').hidden = y < 700;
+  if(!inCh) return;
+  var sec = $('.chapter:not([hidden])'); if(!sec) return;
+  var lim = $('.topbar').getBoundingClientRect().bottom + 28, cur = null;
+  var hs = $$('h3[id],h4[id]', sec);
+  for(var i=0;i<hs.length;i++){ if(hs[i].getBoundingClientRect().top <= lim) cur = hs[i]; else break; }
+  setActiveSub(cur ? cur.id : null);
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    var n = +sec.dataset.n; store.set('last', JSON.stringify({n:n, anchor: cur?cur.id:null}));
+  }, 500);
+}
+
+/* ---------- 抽屉 / 设置 ---------- */
+function openDrawer(){ $('#sidebar').classList.add('open'); $('#scrim').classList.add('show'); $('#btnMenu').setAttribute('aria-expanded','true'); }
+function closeDrawer(){ $('#sidebar').classList.remove('open'); $('#scrim').classList.remove('show'); $('#btnMenu').setAttribute('aria-expanded','false'); }
+function closeSettings(){ $('#settings').hidden = true; $('#btnAa').setAttribute('aria-expanded','false'); }
+
+var FS = [15,16,17,18,19,20,22], fsIdx = FS.indexOf(+store.get('fs')); if(fsIdx<0) fsIdx = 2;
+function applyFs(){ document.documentElement.style.setProperty('--fs', FS[fsIdx]+'px'); $('#fsVal').textContent = FS[fsIdx]; store.set('fs', FS[fsIdx]); }
+var theme = store.get('theme') || 'auto';
+function applyTheme(){
+  var r = document.documentElement;
+  if(theme==='auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', theme);
+  $$('#themeSeg button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.theme===theme)); });
+  store.set('theme', theme);
+}
+
+/* ---------- 搜索 ---------- */
+var index = null, results = [], activeRes = -1;
+function buildIndex(){
+  index = [];
+  $$('.chapter').forEach(function(sec){
+    var n = +sec.dataset.n, c = chap(n), curH = '';
+    $$('.ch-title,h3,h4,p,li,tr,.callout-title', sec).forEach(function(el){
+      var tag = el.tagName, txt, isHead = false;
+      if(tag==='H3'||tag==='H4'){ curH = el.textContent.trim(); txt = curH; isHead = true; }
+      else if(el.classList.contains('ch-title')){ txt = c.title; isHead = true; }
+      else if(tag==='P'){ if(el.parentNode.tagName==='LI' || el.classList.contains('ch-sum')) return; txt = el.textContent; }
+      else if(tag==='LI'){ var cl = el.cloneNode(true); $$('ul,ol',cl).forEach(function(u){u.remove();}); txt = cl.textContent; }
+      else if(tag==='TR'){ if(el.parentNode.tagName==='THEAD') return; txt = $$('td',el).map(function(t){return t.textContent;}).join('  '); }
+      else txt = el.textContent;
+      txt = (txt||'').replace(/\s+/g,' ').trim(); if(!txt) return;
+      index.push({n:n, el:el, text:txt, low:txt.toLowerCase(), sec:curH, head:isHead});
+    });
+  });
+}
+function openSearch(q){
+  closeDrawer(); closeSettings();
+  if(!index) buildIndex();
+  $('#searchDlg').hidden = false;
+  var inp = $('#searchInput'); if(typeof q==='string') inp.value = q;
+  inp.focus(); inp.select(); runSearch();
+}
+function closeSearch(){ $('#searchDlg').hidden = true; }
+function runSearch(){
+  var q = $('#searchInput').value.trim(), body = $('#searchBody');
+  results = []; activeRes = -1;
+  if(!q){ body.innerHTML = '<div class="dlg-note">输入想找的功能或词语，例如：预算、备份、黄金、Quick Add、Lend / Claim。</div>'; return; }
+  var terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+  var hits = index.filter(function(it){ return terms.every(function(t){ return it.low.indexOf(t)>-1; }); });
+  hits.sort(function(a,b){ return (a.head?0:1)-(b.head?0:1); });
+  var total = hits.length; hits = hits.slice(0,50);
+  if(!total){ body.innerHTML = '<div class="dlg-note">没有找到“'+esc(q)+'”。可以换个说法，或减少关键词。</div>'; return; }
+  var re = new RegExp('('+terms.map(escRe).join('|')+')','gi');
+  body.innerHTML = '<div class="dlg-note">找到 '+total+' 处'+(total>50?'，仅显示前 50 条，可输入更具体的关键词':'')+'</div>' + hits.map(function(it,i){
+    var c = chap(it.n), pos = it.low.indexOf(terms[0]); if(pos<0) pos = 0;
+    var s = it.text.slice(Math.max(0,pos-24), pos+96);
+    if(pos>24) s = '…'+s; if(pos+96<it.text.length) s += '…';
+    var snip = esc(s).replace(new RegExp('('+terms.map(function(t){return escRe(esc(t));}).join('|')+')','gi'),'<mark>$1</mark>');
+    return '<div class="res" role="option" data-i="'+i+'"><div class="res-h"><span class="seal seal-sm">'+c.numeral+'</span><span>'+esc(c.short)+'</span>'+(it.sec&&!it.head?'<span class="res-sec">› '+esc(it.sec)+'</span>':'')+'</div><div class="res-s">'+snip+'</div></div>';
+  }).join('');
+  results = hits.map(function(h){ return {h:h, terms:terms}; });
+}
+function pickResult(i){
+  var r = results[i]; if(!r) return;
+  closeSearch();
+  navigate('#/c'+r.h.n, {target:r.h.el, terms:r.terms});
+}
+function setActiveRes(i){
+  var els = $$('.res'); if(!els.length) return;
+  activeRes = (i+els.length)%els.length;
+  els.forEach(function(e,k){ e.classList.toggle('active', k===activeRes); });
+  els[activeRes].scrollIntoView({block:'nearest'});
+}
+
+/* ---------- 高亮 ---------- */
+function highlightIn(el, terms){
+  var re = new RegExp('('+terms.map(escRe).join('|')+')','gi');
+  var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+  while(w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(function(n){
+    var parts = n.nodeValue.split(re); if(parts.length<2) return;
+    var frag = document.createDocumentFragment();
+    parts.forEach(function(p,i){
+      if(i%2){ var m = document.createElement('mark'); m.className='hit'; m.textContent=p; frag.appendChild(m); }
+      else if(p) frag.appendChild(document.createTextNode(p));
+    });
+    n.parentNode.replaceChild(frag, n);
+  });
+}
+function clearMarks(){
+  $$('mark.hit').forEach(function(m){
+    var p = m.parentNode; p.replaceChild(document.createTextNode(m.textContent), m); p.normalize();
+  });
+}
+
+/* ---------- 表格筛选 ---------- */
+var RANGES = [['全部',0,9999],['v400 以上',400,9999],['v300–399',300,399],['v200–299',200,299],['v100–199',100,199],['v1–99',1,99]];
+function setupTables(){
+  $$('.table-wrap[data-filter]').forEach(function(w){
+    var kind = w.dataset.filter, rows = $$('tbody tr', w), min = 0, max = 9999;
+    var tb = document.createElement('div'); tb.className = 'tbl-tools';
+    tb.innerHTML = '<label class="tbl-search"><span class="sr">筛选表格</span><input type="search" placeholder="'+(kind==='changelog'?'筛选版本记录，例如 v300、预算、修复':'筛选速查表，例如 备份、黄金')+'"></label>'
+      + (kind==='changelog' ? '<div class="range">'+RANGES.map(function(r,i){return '<button type="button" data-i="'+i+'" aria-pressed="'+(i===0)+'">'+r[0]+'</button>';}).join('')+'</div>' : '')
+      + '<span class="tbl-count" aria-live="polite"></span>';
+    w.parentNode.insertBefore(tb, w);
+    var inp = $('input', tb), cnt = $('.tbl-count', tb);
+    rows.forEach(function(tr){ var m = tr.textContent.match(/v(\d+)/); tr.dataset.v = m ? m[1] : '0'; tr.dataset.low = tr.textContent.toLowerCase(); });
+    function apply(){
+      var q = inp.value.trim().toLowerCase().split(/\s+/).filter(Boolean), shown = 0;
+      rows.forEach(function(tr){
+        var v = +tr.dataset.v, ok = (kind!=='changelog' || (v>=min && v<=max)) && q.every(function(t){ return tr.dataset.low.indexOf(t)>-1; });
+        tr.hidden = !ok; if(ok) shown++;
+      });
+      cnt.textContent = (shown===rows.length) ? '共 '+rows.length+' 条' : '显示 '+shown+' / '+rows.length+' 条';
+    }
+    inp.addEventListener('input', apply);
+    $$('.range button', tb).forEach(function(b){
+      b.addEventListener('click', function(){
+        var r = RANGES[+b.dataset.i]; min = r[1]; max = r[2];
+        $$('.range button', tb).forEach(function(x){ x.setAttribute('aria-pressed', String(x===b)); });
+        apply();
+      });
+    });
+    w._reset = function(){ inp.value=''; min=0; max=9999; $$('.range button',tb).forEach(function(x,i){x.setAttribute('aria-pressed',String(i===0));}); apply(); };
+    apply();
+  });
+}
+function resetFilters(){ $$('.table-wrap[data-filter]').forEach(function(w){ if(w._reset) w._reset(); }); }
+
+/* ---------- 安装到主屏幕 ---------- */
+var deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredPrompt = e; });
+function openInstall(){
+  closeSettings(); closeDrawer();
+  if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ deferredPrompt = null; }); return; }
+  var ua = navigator.userAgent||'', os = /iPhone|iPad|iPod/i.test(ua) ? 'ios' : /Android/i.test(ua) ? 'android' : 'desktop';
+  $$('#installDlg .inst-sec[data-os]').forEach(function(s){ s.classList.toggle('here', s.dataset.os===os); });
+  $('#installDlg').hidden = false;
+  $('#installClose').focus();
+}
+function closeInstall(){ $('#installDlg').hidden = true; }
+
+/* ---------- 事件 ---------- */
+document.addEventListener('click', function(e){
+  var a = e.target.closest ? e.target.closest('a[href^="#/"]') : null;
+  if(a){
+    e.preventDefault();
+    var pill = null;
+    if(a.classList.contains('xref') && curKey && curKey!=='home'){ var cc = chap(parseHash('#/'+curKey).n); if(cc) pill = chapLabel(cc); }
+    navigate(a.getAttribute('href'), {pill:pill});
+    return;
+  }
+  if(e.target.closest('[data-open-search]')){ openSearch(); return; }
+  if(e.target.closest('[data-open-install]')){ openInstall(); return; }
+  var res = e.target.closest('.res'); if(res){ pickResult(+res.dataset.i); return; }
+  if(!e.target.closest('#settings') && !e.target.closest('#btnAa')) closeSettings();
+});
+$('#btnHome').addEventListener('click', function(){ navigate('#/'); });
+$('#btnMenu').addEventListener('click', openDrawer);
+$('#scrim').addEventListener('click', closeDrawer);
+$('#btnBack').addEventListener('click', function(){ try{ history.back(); }catch(e){} });
+$('#jumpPill').addEventListener('click', function(){ try{ history.back(); }catch(e){} });
+$('#toTop').addEventListener('click', function(){ window.scrollTo({top:0}); });
+$('#btnAa').addEventListener('click', function(e){
+  e.stopPropagation();
+  var s = $('#settings'); s.hidden = !s.hidden; $('#btnAa').setAttribute('aria-expanded', String(!s.hidden));
+});
+$$('#settings [data-fs]').forEach(function(b){ b.addEventListener('click', function(){ fsIdx = Math.max(0, Math.min(FS.length-1, fsIdx + (+b.dataset.fs))); applyFs(); }); });
+$$('#themeSeg button').forEach(function(b){ b.addEventListener('click', function(){ theme = b.dataset.theme; applyTheme(); }); });
+$('#searchInput').addEventListener('input', runSearch);
+$('#searchClose').addEventListener('click', closeSearch);
+$('#btnInstallPop').addEventListener('click', openInstall);
+$('#installClose').addEventListener('click', closeInstall);
+$('#installDlg').addEventListener('mousedown', function(e){ if(e.target===this) closeInstall(); });
+$('#searchDlg').addEventListener('mousedown', function(e){ if(e.target===this) closeSearch(); });
+$('#searchInput').addEventListener('keydown', function(e){
+  if(e.key==='ArrowDown'){ e.preventDefault(); setActiveRes(activeRes+1); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); setActiveRes(activeRes-1); }
+  else if(e.key==='Enter'){ e.preventDefault(); pickResult(activeRes>=0?activeRes:0); }
+});
+document.addEventListener('keydown', function(e){
+  var t = e.target, typing = t && (t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);
+  if(e.key==='Escape'){ closeSearch(); closeSettings(); closeDrawer(); closeInstall(); }
+  else if(e.key==='/' && !typing && !e.ctrlKey && !e.metaKey){ e.preventDefault(); openSearch(); }
+});
+window.addEventListener('popstate', function(){ onRoute(location.hash); });
+window.addEventListener('hashchange', function(){ onRoute(location.hash); });
+
+/* ---------- 启动 ---------- */
+buildSidebar(); setupTables(); applyFs(); applyTheme();
+freshNav = true; onRoute(location.hash);
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>

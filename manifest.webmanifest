@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "Ledger 记账本 用户手册",
+  "short_name": "Ledger 手册",
+  "description": "Ledger 记账本用户手册电子书，支持离线阅读。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F2F6F1",
+  "theme_color": "#FAFCF9",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
